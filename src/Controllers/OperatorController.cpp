@@ -9,6 +9,7 @@ OperatorController::OperatorController(CowControlBoard* controlboard)
 void OperatorController::handle(CowRobot* bot)
 {
 	//printf("Controlling...\n");
+	//bot->DriveSpeedTurn(m_CB->GetDriveStickY(), m_CB->GetSteeringX(), m_CB->GetSteeringButton(FAST_TURN));
 	bot->DriveSpeedTurn(m_CB->GetDriveStickY(), m_CB->GetSteeringX(), m_CB->GetSteeringButton(FAST_TURN));
 }
 

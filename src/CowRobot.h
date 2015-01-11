@@ -24,8 +24,8 @@ private:
 	GenericController* m_Controller;
 	
 	// Drive Motors
-	Talon *m_RightDrive;
-	Talon *m_LeftDrive;
+	CANTalon *m_RightDrive;
+	CANTalon *m_LeftDrive;
 	
 	//CowLib::CowGyro* m_Gyro;
 	Encoder* m_DriveEncoder;

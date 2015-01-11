@@ -11,8 +11,8 @@ CowRobot::CowRobot()
 		
 	m_Controller = NULL;
 	// Set up drive motors
-	m_RightDrive = new Talon(PWM_RIGHT_DRIVE);
-	m_LeftDrive = new Talon(PWM_LEFT_DRIVE);
+	m_RightDrive = new CANTalon(1);
+	m_LeftDrive = new CANTalon(2);
 
 //	m_Gyro = new CowLib::CowGyro(ANALOG_GYRO);
 //	m_Gyro->SetSensitivity(GYRO_SENSITIVITY);
@@ -195,7 +195,7 @@ void CowRobot::SetLeftMotors(float val)
 	if (val < -1.0)
 		val = -1.0;
 
-	m_LeftDrive->SetSpeed(-val);
+	m_LeftDrive->Set(-val);
 }
 
 /// sets the left side motors
@@ -206,5 +206,5 @@ void CowRobot::SetRightMotors(float val)
 	if (val < -1.0)
 		val = -1.0;
 
-	m_RightDrive->SetSpeed(val);
+	m_RightDrive->Set(val);
 }

@@ -3,8 +3,8 @@
 /// Constructor for Cow Control Board
 CowControlBoard::CowControlBoard()
 	:
-	m_DriveStick(new Joystick(1)),
-	m_DriveWheel(new Joystick(2)),
+	m_DriveStick(new Joystick(0)),
+	m_DriveWheel(new Joystick(1)),
 	m_OperatorPanel(new Joystick(3)),
 	m_PreviousAuto(false)
 {
@@ -37,12 +37,12 @@ bool CowControlBoard::GetQuickTurn()
 
 float CowControlBoard::GetDriveStickY()
 {
-	return m_DriveStick->GetRawAxis(LEFT_GAMEPAD_Y);
+	return m_DriveStick->GetRawAxis(1);
 }
 
 float CowControlBoard::GetSteeringX()
 {
-	return m_DriveWheel->GetRawAxis(STEERING_X);
+	return m_DriveWheel->GetRawAxis(0);
 }
 
 bool CowControlBoard::GetDriveButton(const int button)

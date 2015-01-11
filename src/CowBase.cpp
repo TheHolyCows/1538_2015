@@ -4,9 +4,9 @@ CowBase::CowBase()
 	:
 	m_Bot(new CowRobot()),
 	m_ControlBoard(new CowControlBoard()),
-	m_OpController(new OperatorController(m_ControlBoard)),
-	m_AutoController(new AutoModeController()),
-	m_Constants(CowConstants::GetInstance())
+	m_OpController(new OperatorController(m_ControlBoard))
+//	m_AutoController(new AutoModeController()),
+//	m_Constants(CowConstants::GetInstance())
 {	
 	//SetPeriod(HZ(ROBOT_HZ));
 	//GetWatchdog().SetEnabled(false);
@@ -19,16 +19,16 @@ void CowBase::RobotInit()
 
 void CowBase::DisabledInit()
 {
-	m_Constants->RestoreData();
+	//m_Constants->RestoreData();
 }
 
 void CowBase::AutonomousInit()
 {
 	//m_Bot->GyroFinalizeCalibration();
 	
-	m_AutoController->SetCommandList(AutoModes::GetInstance()->GetCommandList());
-	m_Bot->SetController(m_AutoController);
-	m_Bot->Reset();
+//	m_AutoController->SetCommandList(AutoModes::GetInstance()->GetCommandList());
+//	m_Bot->SetController(m_AutoController);
+//	m_Bot->Reset();
 	
 	//m_WinchState = Winch::READY_TO_FIRE;
 }
@@ -60,36 +60,36 @@ void CowBase::DisabledPeriodic()
 {
 //	m_Bot->GyroHandleCalibration();
 	
-	if(m_ControlBoard->GetAutoSelectButton())
-	{
-		if(m_ControlBoard->GetDriveButton(3))
-		{
-			m_Bot->Reset();
-			m_Constants->RestoreData();
-			AutoModes::GetInstance()->NextMode();
-		}
-//		else
+//	if(m_ControlBoard->GetAutoSelectButton())
+//	{
+//		if(m_ControlBoard->GetDriveButton(3))
 //		{
-//			m_Bot->GyroFinalizeCalibration();
+//			m_Bot->Reset();
+//			m_Constants->RestoreData();
+//			AutoModes::GetInstance()->NextMode();
 //		}
-	}
+////		else
+////		{
+////			m_Bot->GyroFinalizeCalibration();
+////		}
+//	}
 	
-	m_Bot->PrintToDS();
+//	m_Bot->PrintToDS();
 }
 void CowBase::AutonomousPeriodic()
 {
-	m_Bot->PrintToDS();
-	m_Bot->handle();
+//	m_Bot->PrintToDS();
+//	m_Bot->handle();
 }
 void CowBase::TeleopPeriodic()
 {
-	if(m_ControlBoard->GetAutoSelectButton())
-	{
-		m_Bot->Reset();
-		m_Constants->RestoreData();
-	}
-	
-	m_Bot->PrintToDS();
+//	if(m_ControlBoard->GetAutoSelectButton())
+//	{
+//		m_Bot->Reset();
+//		m_Constants->RestoreData();
+//	}
+//
+//	m_Bot->PrintToDS();
 	m_Bot->handle();
 }
 
