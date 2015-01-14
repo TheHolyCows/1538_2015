@@ -6,7 +6,7 @@
 #define __COW_LIB_H__
 
 #include "Utility.h"
-//#include "CowGyro.h"
+#include "CowGyro.h"
 #include "CowLexer.h"
 
 #endif

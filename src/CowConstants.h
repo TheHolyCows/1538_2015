@@ -5,7 +5,7 @@
 #ifndef __COW_CONSTANTS_H__
 #define __COW_CONSTANTS_H__
 
-//#include <hostLib.h>
+#include <unistd.h>
 #include <WPILib.h>
 #include <fstream>
 #include <string>

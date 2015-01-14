@@ -19,7 +19,7 @@ void CowBase::RobotInit()
 
 void CowBase::DisabledInit()
 {
-	//m_Constants->RestoreData();
+	CowConstants::GetInstance()->RestoreData();
 }
 
 void CowBase::AutonomousInit()

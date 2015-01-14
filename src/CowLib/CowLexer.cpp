@@ -13,7 +13,7 @@ namespace CowLib
 	
 		const char* error;
 		int erroroffset;
-		//tok.pattern = pcre_compile(pattern, 0, &error, &erroroffset, 0);
+		tok.pattern = pcre_compile(pattern, 0, &error, &erroroffset, 0);
 
 	
 		if(tok.pattern == NULL)
@@ -46,9 +46,8 @@ namespace CowLib
 				it->resultBeginOffset = 0;
 				it->resultEndOffset = 0;
 				int ovec[3];
-				//int result = pcre_exec(it->pattern, 0, str.c_str(), str.length(), offset, 0, ovec, 3);
-	
-				int result = 0;
+				int result = pcre_exec(it->pattern, 0, str.c_str(), str.length(), offset, 0, ovec, 3);
+
 				if(result > 0)
 				{
 					it->resultBeginOffset = ovec[0];

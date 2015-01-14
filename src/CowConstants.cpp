@@ -42,7 +42,6 @@ double CowConstants::GetValueForKey(char* key)
 	{
 		printf("Missing constant: %s!!\nKilling FRC_RobotTask\n", key);
 		CowLib::PrintToLCD("Missing constant!!\n%s\n\nKilling FRC_RobotTask", key);
-		//wpi_selfTrace();
 		exit(1); // kill the robot
 		return 0;
 	}
@@ -99,6 +98,7 @@ void CowConstants::RestoreData(char* filename)
 	// Load in our file
 	string data;
 	std::ifstream file(filename, std::ios::in | std::ios::binary);
+
 	if(!file)
 	{
 		printf("Error: could not read %s\nNo constants were loaded.\n", filename);
@@ -115,9 +115,11 @@ void CowConstants::RestoreData(char* filename)
 
 void CowConstants::ParseINI(string data, char* filename)
 {
-	char robotName[64] = {0};
-	//gethostname(robotName, 64);
+	char robotName[256] = {0};
+	gethostname(robotName, 256);
 	
+	printf("Hostname: %s\r\n", robotName);
+
 	// Tokenize
 	std::vector<CowLib::CowLexer::st_Token> tokens = m_Lexer->TokenizeString(data);
 	
@@ -198,6 +200,7 @@ void CowConstants::ParseINI(string data, char* filename)
 			else
 			{
 				if(currentSection == NULL || strcmp(currentSection, robotName) == 0)
+				//if(currentSection == NULL )
 				{
 					if(currentSection != NULL)
 					{
