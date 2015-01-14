@@ -3,10 +3,7 @@
 AutoModeController::AutoModeController()
 	:
 	m_Timer(new Timer()),
-	m_CurrentCommand(RobotCommand()),
-	m_Fired(false),
-	m_SmartLoaded(false),
-	m_ChangedSetpoint(false)
+	m_CurrentCommand(RobotCommand())
 {
 	m_Timer->Start();
 	reset();
@@ -19,12 +16,10 @@ void AutoModeController::SetCommandList(deque<RobotCommand> list)
 
 void AutoModeController::reset()
 {
-	//CowConstants * rc = CowConstants::GetInstance();
-	//bot->GetGyro()->Reset();
-	//bot->GetEncoder()->Reset();
+	CowConstants * rc = CowConstants::GetInstance();
 
-	//m_CommandList.clear();
-	//m_CurrentCommand = RobotCommand();
+	m_CommandList.clear();
+	m_CurrentCommand = RobotCommand();
 }
 
 
@@ -69,10 +64,6 @@ void AutoModeController::handle(CowRobot* bot)
 	// Check if this command is done
 	if(result == true || m_CurrentCommand.m_Command == CMD_NULL || m_Timer->Get() > m_CurrentCommand.m_Timeout)
 	{
-		if(m_CurrentCommand.m_Command == CMD_DETECT_HOT && m_Timer->Get() > m_CurrentCommand.m_Timeout)
-		{
-			m_CommandList = *(m_CurrentCommand.m_HotGoalLeftCommandList);
-		}
 		// This command is done, go get the next one
 		if(m_CommandList.size() > 0 )
 		{			
@@ -80,11 +71,9 @@ void AutoModeController::handle(CowRobot* bot)
 			m_CommandList.pop_front();
 			
 			if(!m_CurrentCommand.m_Command == CMD_NULL)
+			{
 				printf("Time elapsed: %f\n", m_Timer->Get());
-						
-			m_Fired = false;
-			m_SmartLoaded = false;
-			m_ChangedSetpoint = false;
+			}
 		}
 		else
 		{

@@ -1,12 +1,14 @@
 #include "CowBase.h"
 
+
+
 CowBase::CowBase()
 	:
 	m_Bot(new CowRobot()),
 	m_ControlBoard(new CowControlBoard()),
-	m_OpController(new OperatorController(m_ControlBoard))
-//	m_AutoController(new AutoModeController()),
-//	m_Constants(CowConstants::GetInstance())
+	m_OpController(new OperatorController(m_ControlBoard)),
+	m_AutoController(new AutoModeController()),
+	m_Constants(CowConstants::GetInstance())
 {	
 	//SetPeriod(HZ(ROBOT_HZ));
 	//GetWatchdog().SetEnabled(false);
@@ -24,19 +26,18 @@ void CowBase::DisabledInit()
 
 void CowBase::AutonomousInit()
 {
-	//m_Bot->GyroFinalizeCalibration();
+	m_Bot->GyroFinalizeCalibration();
 	
-//	m_AutoController->SetCommandList(AutoModes::GetInstance()->GetCommandList());
-//	m_Bot->SetController(m_AutoController);
-//	m_Bot->Reset();
-	
-	//m_WinchState = Winch::READY_TO_FIRE;
+	m_AutoController->SetCommandList(AutoModes::GetInstance()->GetCommandList());
+	m_Bot->SetController(m_AutoController);
+	m_Bot->Reset();
 }
 void CowBase::TeleopInit()
 {
+	m_Bot->GyroFinalizeCalibration();
+
 	m_Bot->SetController(m_OpController);
 	m_Bot->Reset();
-	
 	//m_Bot->SetWinchState(m_WinchState);
 	//m_WinchState = Winch::READY_TO_FIRE;
 }
@@ -58,7 +59,7 @@ void CowBase::TeleopContinuous()
 
 void CowBase::DisabledPeriodic()
 {
-//	m_Bot->GyroHandleCalibration();
+	m_Bot->GyroHandleCalibration();
 	
 //	if(m_ControlBoard->GetAutoSelectButton())
 //	{
@@ -78,8 +79,9 @@ void CowBase::DisabledPeriodic()
 }
 void CowBase::AutonomousPeriodic()
 {
+//	m_Bot->DriveLeftRight(1, 1);
 //	m_Bot->PrintToDS();
-//	m_Bot->handle();
+	m_Bot->handle();
 }
 void CowBase::TeleopPeriodic()
 {

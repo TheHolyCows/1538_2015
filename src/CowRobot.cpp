@@ -13,12 +13,15 @@ CowRobot::CowRobot()
 	// Set up drive motors
 	m_RightDrive = new CANTalon(1);
 	m_LeftDrive = new CANTalon(2);
+	m_Roller = new Talon(0);
 
-//	m_Gyro = new CowLib::CowGyro(ANALOG_GYRO);
-//	m_Gyro->SetSensitivity(GYRO_SENSITIVITY);
-//	m_Gyro->Reset();
+	//m_SolenoidA = new Solenoid(0);
 
-	m_DriveEncoder = new Encoder(DIGITAL_ENCODER_A, DIGITAL_ENCODER_B, true, Encoder::k1X);
+	m_Gyro = new CowLib::CowGyro(ANALOG_GYRO);
+	m_Gyro->SetSensitivity(GYRO_SENSITIVITY);
+	m_Gyro->Reset();
+
+	m_DriveEncoder = new Encoder(0, 1, true, Encoder::k1X);
 	m_DriveEncoder->SetDistancePerPulse(0.03490658503); // 4*pi/360
 	//m_DriveEncoder->Start();
 	
@@ -56,7 +59,6 @@ void CowRobot::PrintToDS()
 //						   m_DriveEncoder->GetDistance(),
 //						   m_FrontIR->GetVoltage(), m_RearIR->GetVoltage());
 	}
-	m_DSUpdateCount++;
 }
 
 /// Used to handle the recurring logic funtions inside the robot.
@@ -77,8 +79,17 @@ void CowRobot::handle()
 	
 	SetLeftMotors(tmpLeftMotor);
 	SetRightMotors(tmpRightMotor);
-	//printf("%f, %f\r\n",  m_Encoder->GetDistance(), m_Gyro->GetAngle());
-	//printf("%f\n", m_Gyro->GetAngle());
+	if(m_DSUpdateCount % 10 == 0)
+	{
+		printf("Gyro: %f, Encoder: %f\r\n",  m_Gyro->GetAngle(), m_DriveEncoder->GetDistance());
+	}
+
+	if(m_DSUpdateCount % 100 == 0)
+	{
+		//m_SolenoidA->Set(!m_SolenoidA->Get());
+	}
+	m_DSUpdateCount++;
+
 }
 
 double CowRobot::GetDriveDistance()
@@ -207,4 +218,19 @@ void CowRobot::SetRightMotors(float val)
 		val = -1.0;
 
 	m_RightDrive->Set(val);
+}
+
+void CowRobot::SetRollerSpeed(float val)
+{
+	m_Roller->Set(val);
+}
+
+void CowRobot::GyroHandleCalibration()
+{
+	m_Gyro->HandleCalibration();
+}
+
+void CowRobot::GyroFinalizeCalibration()
+{
+	m_Gyro->FinalizeCalibration();
 }

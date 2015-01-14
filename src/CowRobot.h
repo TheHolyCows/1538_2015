@@ -26,10 +26,14 @@ private:
 	// Drive Motors
 	CANTalon *m_RightDrive;
 	CANTalon *m_LeftDrive;
+	Talon *m_Roller;
 	
 	//CowLib::CowGyro* m_Gyro;
+	CowLib::CowGyro* m_Gyro;
 	Encoder* m_DriveEncoder;
 	
+	//Solenoid* m_SolenoidA;
+
 	float m_LeftDriveValue;
 	float m_RightDriveValue;
 
@@ -52,6 +56,19 @@ public:
 	void DriveLeftRight(float leftDriveValue, float rightDriveValue);
 	void QuickTurn(float turn);
 	
+	void SetRollerSpeed(float val);
+
+	CowLib::CowGyro* GetGyro()
+	{
+		return m_Gyro;
+	}
+
+	Encoder* GetEncoder()
+	{
+		return m_DriveEncoder;
+	}
+
+
 	void handle();
 };
 

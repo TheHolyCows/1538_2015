@@ -75,7 +75,6 @@ namespace CowLib
 
 		return value * 1e-9 * (double)m_Analog->GetLSBWeight() * (double)(1 << m_Analog->GetAverageBits()) /
 			(m_Analog->GetSampleRate() * m_VoltsPerDegreePerSecond);
-		return 0;
 	}
 
 	void CowGyro::Reset()
@@ -109,7 +108,7 @@ namespace CowLib
 
 	void CowGyro::FinalizeCalibration()
 	{
-		if (m_CircularBuffer->GetUsed() < sizeof(st_Accumulation) * COWGYRO_RING_SIZE)
+		if (m_CircularBuffer->GetSize() < COWGYRO_RING_SIZE)
 		{
 			printf("Not enough data to recalibrate with, recal queued\n");
 			m_RecalQueued = true;

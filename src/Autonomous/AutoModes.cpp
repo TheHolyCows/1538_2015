@@ -15,6 +15,11 @@ AutoModes::AutoModes()
 {	
 	// Set up our selection order
 	m_Modes["Default"];
+	m_Modes["Default"].push_back(RobotCommand(CMD_WAIT, 0, 0, 1.5));
+	m_Modes["Default"].push_back(RobotCommand(CMD_DRIVE_DISTANCE, 100, 0, 1.5));
+	m_Modes["Default"].push_back(RobotCommand(CMD_WAIT, 0, 0, 5));
+	m_Modes["Default"].push_back(RobotCommand(CMD_DRIVE_DISTANCE, 100, 0, 1000));
+
 	m_Iterator = m_Modes.begin();
 }
 
