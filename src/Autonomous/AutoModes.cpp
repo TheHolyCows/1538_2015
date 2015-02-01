@@ -28,7 +28,7 @@ std::deque<RobotCommand> AutoModes::GetCommandList()
 	return m_Iterator->second;
 }
 
-char* AutoModes::GetName()
+const char* AutoModes::GetName()
 {
 	return m_Iterator->first;
 }

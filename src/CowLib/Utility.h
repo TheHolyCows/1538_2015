@@ -32,7 +32,7 @@ namespace CowLib
 	  std::sort(begin, end, compareParticleAnalysisReport);
 	}  
 	
-	void PrintToLCD(char* format, ...);
+	void PrintToLCD(const char* format, ...);
 	
 	double UnitsPerSecond(double value); // converts units per robot period to units per second
 }

@@ -68,7 +68,6 @@ public:
 		return m_DriveEncoder;
 	}
 
-
 	void handle();
 };
 

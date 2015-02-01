@@ -32,7 +32,7 @@ namespace CowLib
 			std::string value;
 		} st_Token;
 		CowLexer();
-		void AddToken(std::string name, char* pattern);
+		void AddToken(std::string name, const char* pattern);
 		std::vector<CowLib::CowLexer::st_Token> TokenizeString(std::string str);
 	};
 }

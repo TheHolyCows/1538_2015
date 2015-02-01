@@ -145,7 +145,6 @@ void CowRobot::DriveSpeedTurn(float speed, float turn, bool quickTurn)
 	//	velocity *= 0.003;
 	float temp_vel = speed;
 	float sensitivity = 0;
-	float unscaled_turn = 0;
 
 	if (temp_vel < 0)
 		temp_vel = -temp_vel;
@@ -154,10 +153,8 @@ void CowRobot::DriveSpeedTurn(float speed, float turn, bool quickTurn)
 	
 	if(speed < 0.10 && speed > -0.10)
 		speed = 0;
-	if (turn < 0.10 && turn > -0.10 || (speed == 0 && !quickTurn))
+	if (((turn < 0.10) && (turn > -0.10)) || ((speed == 0) && !quickTurn))
 		turn = 0;
-
-	unscaled_turn = turn;
 
 	if(quickTurn)
 		sensitivity = 1;

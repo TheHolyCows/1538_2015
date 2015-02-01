@@ -33,7 +33,7 @@ double CowLib::AnalogInScale(double oldx, double center)
 	return x;
 }
 
-void CowLib::PrintToLCD(char* format, ...)
+void CowLib::PrintToLCD(const char* format, ...)
 {
 //	DriverStationLCD* ds = DriverStationLCD::GetInstance();
 //	char output[256] = {0};

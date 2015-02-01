@@ -32,7 +32,7 @@ bool CowConstants::DoesKeyExist(string key)
 	return (bool) m_Data.count(key);
 }
 
-double CowConstants::GetValueForKey(char* key)
+double CowConstants::GetValueForKey(const char* key)
 {
 	if(DoesKeyExist(string(key)))
 	{
@@ -48,7 +48,7 @@ double CowConstants::GetValueForKey(char* key)
 }
 
 template <typename T>
-T CowConstants::GetValueForKey(char* key)
+T CowConstants::GetValueForKey(const char* key)
 {
 	if(DoesKeyExist(string(key)))
 	{
@@ -85,12 +85,12 @@ void CowConstants::SetValueForKey(string key, string value)
 	m_Data[key].numeric = atof(value.c_str());
 }
 
-void CowConstants::GrammarError(char* expectedTokenDescription, string value, string receivedToken)
+void CowConstants::GrammarError(const char* expectedTokenDescription, string value, string receivedToken)
 {
 	printf("Error: expected %s before \"%s\", instead got \"%s\"\nAborting parsing\n", expectedTokenDescription, value.c_str(), receivedToken.c_str());
 }
 
-void CowConstants::RestoreData(char* filename)
+void CowConstants::RestoreData(const char* filename)
 {
 	// Clear constants info
 	m_Data.clear();
@@ -113,7 +113,7 @@ void CowConstants::RestoreData(char* filename)
 	ParseINI(data, filename);
 }
 
-void CowConstants::ParseINI(string data, char* filename)
+void CowConstants::ParseINI(string data, const char* filename)
 {
 	char robotName[256] = {0};
 	gethostname(robotName, 256);

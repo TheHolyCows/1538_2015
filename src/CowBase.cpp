@@ -93,6 +93,7 @@ void CowBase::TeleopPeriodic()
 //
 //	m_Bot->PrintToDS();
 	m_Bot->handle();
+	//exit(1);
 }
 
 START_ROBOT_CLASS(CowBase);

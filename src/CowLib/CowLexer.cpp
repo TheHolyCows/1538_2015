@@ -6,7 +6,7 @@ namespace CowLib
 	{
 	}
 	
-	void CowLexer::AddToken(std::string name, char* pattern)
+	void CowLexer::AddToken(std::string name, const char* pattern)
 	{
 		st_PrivateToken tok;
 		tok.name = name;

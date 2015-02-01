@@ -16,7 +16,7 @@ void AutoModeController::SetCommandList(deque<RobotCommand> list)
 
 void AutoModeController::reset()
 {
-	CowConstants * rc = CowConstants::GetInstance();
+	CowConstants::GetInstance();
 
 	m_CommandList.clear();
 	m_CurrentCommand = RobotCommand();

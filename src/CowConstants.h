@@ -35,18 +35,18 @@ private:
 	
 	CowLib::CowLexer* m_Lexer;
 	
-	void GrammarError(char* expectedTokenDescription, string value, string receivedToken);
-	void ParseINI(string data, char* filename);
+	void GrammarError(const char* expectedTokenDescription, string value, string receivedToken);
+	void ParseINI(string data, const char* filename);
 	
 	CowConstants();
 public:
-	void RestoreData(char* filename = COWCONSTANTS_DEFAULT_FILE);
+	void RestoreData(const char* filename = COWCONSTANTS_DEFAULT_FILE);
 
 	static CowConstants * GetInstance();
 	
-	double GetValueForKey(char* key);
+	double GetValueForKey(const char* key);
 	template <typename T>
-	T GetValueForKey(char* key);
+	T GetValueForKey(const char* key);
 	
 	void SetValueForKey(string key, string value);
 	

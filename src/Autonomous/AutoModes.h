@@ -13,14 +13,14 @@ class AutoModes
 {
 private:
 	static AutoModes* m_SingletonInstance;
-	std::map<char*, std::deque<RobotCommand> > m_Modes;
-	std::map<char*, std::deque<RobotCommand> >::iterator m_Iterator;
+	std::map<const char*, std::deque<RobotCommand> > m_Modes;
+	std::map<const char*, std::deque<RobotCommand> >::iterator m_Iterator;
 	
 	AutoModes();
 public:
 	static AutoModes* GetInstance();
 	std::deque<RobotCommand> GetCommandList();
-	char* GetName();
+	const char* GetName();
 	void NextMode();
 };
 
