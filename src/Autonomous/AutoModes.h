@@ -1,5 +1,5 @@
 //==================================================
-// Copyright (C) 2014 Team 1538 / The Holy Cows
+// Copyright (C) 2015 Team 1538 / The Holy Cows
 //==================================================
 
 #ifndef __AUTO_MODES_H__
@@ -12,15 +12,15 @@
 class AutoModes
 {
 private:
-	static AutoModes* m_SingletonInstance;
-	std::map<const char*, std::deque<RobotCommand> > m_Modes;
-	std::map<const char*, std::deque<RobotCommand> >::iterator m_Iterator;
+	static AutoModes *m_SingletonInstance;
+	std::map<const char *, std::deque<RobotCommand> > m_Modes;
+	std::map<const char *, std::deque<RobotCommand> >::iterator m_Iterator;
 	
 	AutoModes();
 public:
-	static AutoModes* GetInstance();
+	static AutoModes *GetInstance();
 	std::deque<RobotCommand> GetCommandList();
-	const char* GetName();
+	const char *GetName();
 	void NextMode();
 };
 

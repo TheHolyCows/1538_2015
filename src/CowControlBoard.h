@@ -1,5 +1,5 @@
 //==================================================
-// Copyright (C) 2014 Team 1538 / The Holy Cows
+// Copyright (C) 2015 Team 1538 / The Holy Cows
 //==================================================
 
 #ifndef __COW_CONTROL_BOARD_H__
@@ -19,14 +19,13 @@
 
 #define FAST_TURN				6 
 
-/// This class offers access to the 2010 specific Cow Control Board
-///
+// This class offers access to the 2010 specific Cow Control Board
 class CowControlBoard
 {
 private:	
-	Joystick* m_DriveStick;
-	Joystick* m_DriveWheel;
-	Joystick* m_OperatorPanel;
+	Joystick *m_DriveStick;
+	Joystick *m_DriveWheel;
+	Joystick *m_OperatorPanel;
 	
 	bool m_PreviousAuto;
 public:

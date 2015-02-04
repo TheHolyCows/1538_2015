@@ -24,9 +24,8 @@ namespace CowLib
 			uint32_t count;
 		} st_Accumulation;
 
-		//RING_ID m_RingBuffer;
 		CowCircularBuffer *m_CircularBuffer;
-		AnalogInput* m_Analog;
+		AnalogInput *m_Analog;
 		double m_VoltsPerDegreePerSecond;
 		int64_t m_Center;
 		double m_Offset;
@@ -34,6 +33,7 @@ namespace CowLib
 		bool m_RecalQueued;
 		double TimeSinceLastSave();
 		CowGyro();
+
 	public:
 		CowGyro(uint32_t channel);
 		~CowGyro();

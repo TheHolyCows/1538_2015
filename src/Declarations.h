@@ -1,5 +1,5 @@
 //==================================================
-// Copyright (C) 2014 Team 1538 / The Holy Cows
+// Copyright (C) 2015 Team 1538 / The Holy Cows
 //==================================================
 
 #ifndef __DECLARATIONS_H__

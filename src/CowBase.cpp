@@ -1,7 +1,5 @@
 #include "CowBase.h"
 
-
-
 CowBase::CowBase()
 	:
 	m_Bot(new CowRobot()),

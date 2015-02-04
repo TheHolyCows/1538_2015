@@ -1,5 +1,5 @@
 //==================================================
-// Copyright (C) 2014 Team 1538 / The Holy Cows
+// Copyright (C) 2015 Team 1538 / The Holy Cows
 //==================================================
 
 #ifndef __AUTO_MODE_CONTROLLER_H__
@@ -51,20 +51,19 @@ public:
 class AutoModeController : public GenericController
 {
 private:
-	Timer* m_Timer; //TODO: standardize timing
+	Timer *m_Timer; //TODO: standardize timing
 	deque<RobotCommand> m_CommandList;
 	RobotCommand m_CurrentCommand;
 	
-	// do nothing
-	void doNothing(CowRobot* bot);
+	void doNothing(CowRobot *bot);
+
 public:
 	AutoModeController();
 	void SetCommandList(deque<RobotCommand> list);
 
-	void handle(CowRobot* bot);
+	void handle(CowRobot *bot);
 	void reset();
 };
-
 
 #endif
 

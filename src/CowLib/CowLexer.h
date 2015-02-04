@@ -1,5 +1,5 @@
 //==================================================
-// Copyright (C) 2014 Team 1538 / The Holy Cows
+// Copyright (C) 2015 Team 1538 / The Holy Cows
 //==================================================
 
 #ifndef __COW_LEXER_H__
@@ -18,7 +18,7 @@ namespace CowLib
 		typedef struct
 		{
 			std::string name;
-			pcre* pattern;
+			pcre *pattern;
 			// Result info is stored for sorting
 			int resultBeginOffset;
 			int resultEndOffset;
@@ -31,8 +31,9 @@ namespace CowLib
 			std::string type;
 			std::string value;
 		} st_Token;
+
 		CowLexer();
-		void AddToken(std::string name, const char* pattern);
+		void AddToken(std::string name, const char *pattern);
 		std::vector<CowLib::CowLexer::st_Token> TokenizeString(std::string str);
 	};
 }

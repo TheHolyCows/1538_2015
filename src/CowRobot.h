@@ -1,15 +1,14 @@
 //==================================================
-// Copyright (C) 2014 Team 1538 / The Holy Cows
+// Copyright (C) 2015 Team 1538 / The Holy Cows
 //==================================================
 
 #ifndef __COW_ROBOT_H__
 #define __COW_ROBOT_H__
 
-
 #include <WPILib.h>
 #include "Controllers/GenericController.h"
-//#include "Subsystems/Intake.h"
-//#include "Subsystems/Winch.h"
+#include "Subsystems/Pincher.h"
+#include "Subsystems/Spool.h"
 #include "CowLib/CowLib.h"
 #include "CowControlBoard.h"
 #include "CounterBase.h"
@@ -21,18 +20,19 @@ public:
 private:
 	int m_DSUpdateCount;
 	
-	GenericController* m_Controller;
+	GenericController *m_Controller;
 	
 	// Drive Motors
 	CANTalon *m_RightDrive;
 	CANTalon *m_LeftDrive;
 	Talon *m_Roller;
 	
-	//CowLib::CowGyro* m_Gyro;
-	CowLib::CowGyro* m_Gyro;
-	Encoder* m_DriveEncoder;
+	CowLib::CowGyro *m_Gyro;
+	Encoder *m_DriveEncoder;
 	
-	//Solenoid* m_SolenoidA;
+	Pincher *m_Pincher;
+	Spool *m_SpoolA;
+	Spool *m_SpoolB;
 
 	float m_LeftDriveValue;
 	float m_RightDriveValue;
@@ -42,12 +42,13 @@ private:
 		
 	void SetLeftMotors(float val);
 	void SetRightMotors(float val);
+
 public:
 	CowRobot();
 	void Reset();
 	void GyroHandleCalibration();
 	void GyroFinalizeCalibration();
-	void SetController(GenericController* controller);
+	void SetController(GenericController *controller);
 	void PrintToDS();
 	double GetDriveDistance();
 	bool DriveDistanceWithHeading(double heading, double distance);
@@ -58,12 +59,12 @@ public:
 	
 	void SetRollerSpeed(float val);
 
-	CowLib::CowGyro* GetGyro()
+	CowLib::CowGyro *GetGyro()
 	{
 		return m_Gyro;
 	}
 
-	Encoder* GetEncoder()
+	Encoder *GetEncoder()
 	{
 		return m_DriveEncoder;
 	}

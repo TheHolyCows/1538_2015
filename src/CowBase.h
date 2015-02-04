@@ -1,11 +1,10 @@
 //==================================================
-// Copyright (C) 2014 Team 1538 / The Holy Cows
+// Copyright (C) 2015 Team 1538 / The Holy Cows
 //==================================================
 
 #ifndef __COW_BASE_H__
 #define __COW_BASE_H__
 
-//#include <hostLib.h>
 #include <WPILib.h>
 #include "CowControlBoard.h"
 #include "Controllers/OperatorController.h"
@@ -17,11 +16,11 @@
 class CowBase : public IterativeRobot
 {
 private:
-	CowRobot* m_Bot;
-	CowControlBoard* m_ControlBoard;
-	OperatorController* m_OpController;
-	AutoModeController* m_AutoController;
-	CowConstants* m_Constants;
+	CowRobot *m_Bot;
+	CowControlBoard *m_ControlBoard;
+	OperatorController *m_OpController;
+	AutoModeController *m_AutoController;
+	CowConstants *m_Constants;
 public:
 	CowBase();
 	void RobotInit();

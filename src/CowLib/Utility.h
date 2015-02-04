@@ -1,5 +1,5 @@
 //==================================================
-// Copyright (C) 2014 Team 1538 / The Holy Cows
+// Copyright (C) 2015 Team 1538 / The Holy Cows
 //==================================================
 
 #ifndef __UTILITY_H__
@@ -20,7 +20,8 @@ namespace CowLib
 	double LimitMix(double value);
 	double AnalogInScale(double oldx, double center);
 	
-	inline bool compareParticleAnalysisReport(const ParticleAnalysisReport& a, const ParticleAnalysisReport& b)
+	inline bool compareParticleAnalysisReport(const ParticleAnalysisReport& a,
+			const ParticleAnalysisReport& b)
 	{
 		//Want the taller one as the last element
 		return a.center_mass_y_normalized > b.center_mass_y_normalized;
@@ -32,9 +33,10 @@ namespace CowLib
 	  std::sort(begin, end, compareParticleAnalysisReport);
 	}  
 	
-	void PrintToLCD(const char* format, ...);
+	void PrintToLCD(const char *format, ...);
 	
-	double UnitsPerSecond(double value); // converts units per robot period to units per second
+	// converts units per robot period to units per second
+	double UnitsPerSecond(double value);
 }
 
 

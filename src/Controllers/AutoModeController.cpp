@@ -23,7 +23,7 @@ void AutoModeController::reset()
 }
 
 
-void AutoModeController::handle(CowRobot* bot)
+void AutoModeController::handle(CowRobot *bot)
 {
 	bool result = false;
 	
@@ -85,7 +85,7 @@ void AutoModeController::handle(CowRobot* bot)
 }
 
 // Drive Functions
-void AutoModeController::doNothing(CowRobot* bot)
+void AutoModeController::doNothing(CowRobot *bot)
 {
 	bot->DriveLeftRight(0, 0);
 }

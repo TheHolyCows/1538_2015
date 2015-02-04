@@ -11,14 +11,14 @@ namespace CowLib
 		st_PrivateToken tok;
 		tok.name = name;
 	
-		const char* error;
+		const char *error;
 		int erroroffset;
 		tok.pattern = pcre_compile(pattern, 0, &error, &erroroffset, 0);
-
 	
 		if(tok.pattern == NULL)
 		{
-			printf("Unable to add token \"%s\"\nError: %s (offset %d)\n    %s\n", name.c_str(), error, erroroffset, pattern);
+			printf("Unable to add token \"%s\"\nError: %s (offset %d)\n    %s\n",
+					name.c_str(), error, erroroffset, pattern);
 			for(int i = 0; i < erroroffset+4; i++)
 			{
 				printf("-");
@@ -37,7 +37,7 @@ namespace CowLib
 	{
 		unsigned int offset = 0;
 		std::vector<st_PrivateToken>::iterator it = m_Tokens.begin();
-		st_PrivateToken* candidate = NULL;
+		st_PrivateToken *candidate = NULL;
 		std::vector<st_Token> resultList;
 		while(offset < str.length())
 		{
@@ -46,7 +46,8 @@ namespace CowLib
 				it->resultBeginOffset = 0;
 				it->resultEndOffset = 0;
 				int ovec[3];
-				int result = pcre_exec(it->pattern, 0, str.c_str(), str.length(), offset, 0, ovec, 3);
+				int result = pcre_exec(it->pattern, 0, str.c_str(), str.length(),
+										offset, 0, ovec, 3);
 
 				if(result > 0)
 				{
@@ -82,7 +83,8 @@ namespace CowLib
 			// Push match to token list
 			st_Token match;
 			match.type = candidate->name;
-			match.value = str.substr(candidate->resultBeginOffset, candidate->resultEndOffset - candidate->resultBeginOffset);
+			match.value = str.substr(candidate->resultBeginOffset,
+									candidate->resultEndOffset - candidate->resultBeginOffset);
 			if(match.type.length() > 0)
 			{
 				resultList.push_back(match);
