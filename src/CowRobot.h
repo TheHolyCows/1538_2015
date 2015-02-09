@@ -23,8 +23,14 @@ private:
 	GenericController *m_Controller;
 	
 	// Drive Motors
-	CANTalon *m_RightDrive;
-	CANTalon *m_LeftDrive;
+	CANTalon *m_LeftDriveA;
+	CANTalon *m_LeftDriveB;
+	CANTalon *m_LeftDriveC;
+
+	CANTalon *m_RightDriveA;
+	CANTalon *m_RightDriveB;
+	CANTalon *m_RightDriveC;
+
 	Talon *m_Roller;
 	
 	CowLib::CowGyro *m_Gyro;

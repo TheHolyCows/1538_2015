@@ -11,8 +11,15 @@ CowRobot::CowRobot()
 		
 	m_Controller = NULL;
 	// Set up drive motors
-	m_RightDrive = new CANTalon(1);
-	m_LeftDrive = new CANTalon(2);
+	m_LeftDriveA = new CANTalon(1);
+	m_LeftDriveB = new CANTalon(2);
+	m_LeftDriveC = new CANTalon(3);
+
+	m_RightDriveA = new CANTalon(4);
+	m_RightDriveB = new CANTalon(5);
+	m_RightDriveC = new CANTalon(6);
+
+
 	m_Roller = new Talon(0);
 
 	//m_SolenoidA = new Solenoid(0);
@@ -203,7 +210,10 @@ void CowRobot::SetLeftMotors(float val)
 	if (val < -1.0)
 		val = -1.0;
 
-	m_LeftDrive->Set(-val);
+	m_LeftDriveA->Set(val);
+	m_LeftDriveB->Set(-val);
+	m_LeftDriveC->Set(-val);
+
 }
 
 // sets the left side motors
@@ -214,7 +224,9 @@ void CowRobot::SetRightMotors(float val)
 	if (val < -1.0)
 		val = -1.0;
 
-	m_RightDrive->Set(val);
+	m_RightDriveA->Set(val);
+	m_RightDriveB->Set(val);
+	m_RightDriveC->Set(-val);
 }
 
 void CowRobot::SetRollerSpeed(float val)
