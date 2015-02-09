@@ -1,8 +1,8 @@
 #include "AutoModes.h"
 
-AutoModes*  AutoModes::m_SingletonInstance = NULL;
+AutoModes *AutoModes::m_SingletonInstance = NULL;
 
-AutoModes* AutoModes::GetInstance()
+AutoModes *AutoModes::GetInstance()
 {
 	if(m_SingletonInstance == NULL)
 	{
@@ -28,7 +28,7 @@ std::deque<RobotCommand> AutoModes::GetCommandList()
 	return m_Iterator->second;
 }
 
-char* AutoModes::GetName()
+const char *AutoModes::GetName()
 {
 	return m_Iterator->first;
 }

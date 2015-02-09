@@ -22,18 +22,18 @@ double CowLib::AnalogInScale(double oldx, double center)
 	}
 	else if (x > 0)
 	{
-		x = ((x - (center*deadband))/((max - center*deadband) - (center
-				*deadband)));
+		x = ((x - (center*deadband))/((max - center*deadband) -
+				(center*deadband)));
 	}
 	else if (x < 0)
 	{
-		x = ((x + (center*deadband))/(-1*((min + center*deadband) + (center
-				*deadband))));
+		x = ((x + (center*deadband))/(-1*((min + center*deadband) +
+				(center*deadband))));
 	}
 	return x;
 }
 
-void CowLib::PrintToLCD(char* format, ...)
+void CowLib::PrintToLCD(const char *format, ...)
 {
 //	DriverStationLCD* ds = DriverStationLCD::GetInstance();
 //	char output[256] = {0};

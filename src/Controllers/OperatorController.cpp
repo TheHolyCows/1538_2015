@@ -1,12 +1,12 @@
 #include "OperatorController.h"
 
-OperatorController::OperatorController(CowControlBoard* controlboard)
+OperatorController::OperatorController(CowControlBoard *controlboard)
 	:
 	m_CB(controlboard)
 {
 }
 
-void OperatorController::handle(CowRobot* bot)
+void OperatorController::handle(CowRobot *bot)
 {
 	//printf("Controlling...\n");
 	//bot->DriveSpeedTurn(m_CB->GetDriveStickY(), m_CB->GetSteeringX(), m_CB->GetSteeringButton(FAST_TURN));
@@ -20,6 +20,8 @@ void OperatorController::handle(CowRobot* bot)
 		bot->SetRollerSpeed(0);
 	}
 
-	bot->DriveSpeedTurn(m_CB->GetDriveStickY(), m_CB->GetSteeringX(), m_CB->GetSteeringButton(FAST_TURN));
+	bot->DriveSpeedTurn(m_CB->GetDriveStickY(),
+						m_CB->GetSteeringX(),
+						m_CB->GetSteeringButton(FAST_TURN));
 }
 

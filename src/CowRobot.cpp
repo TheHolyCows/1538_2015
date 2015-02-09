@@ -1,18 +1,25 @@
 #include "CowRobot.h"
 #include "CowBase.h"
 
-// TODO: a lot of the older functions in this file are clunky.  clean them up.
+// TODO: A lot of the older functions in this file are clunky. Clean them up.
 
-//TODO: initializer list
-/// Constructor for CowRobot
+// TODO: Initializer list
+// Constructor for CowRobot
 CowRobot::CowRobot()
 {	
 	m_DSUpdateCount = 0;
 		
 	m_Controller = NULL;
 	// Set up drive motors
-	m_RightDrive = new CANTalon(1);
-	m_LeftDrive = new CANTalon(2);
+	m_LeftDriveA = new CANTalon(1);
+	m_LeftDriveB = new CANTalon(2);
+	m_LeftDriveC = new CANTalon(3);
+
+	m_RightDriveA = new CANTalon(4);
+	m_RightDriveB = new CANTalon(5);
+	m_RightDriveC = new CANTalon(6);
+
+
 	m_Roller = new Talon(0);
 
 	//m_SolenoidA = new Solenoid(0);
@@ -37,10 +44,9 @@ void CowRobot::Reset()
 	m_DriveEncoder->Reset();
 	m_PreviousGyroError = 0;
 	m_PreviousDriveError = 0;
-
 }
 
-void CowRobot::SetController(GenericController* controller)
+void CowRobot::SetController(GenericController *controller)
 {
 	m_Controller = controller;
 }
@@ -70,6 +76,7 @@ void CowRobot::handle()
 		printf("No controller for CowRobot!!\n");
 		return;
 	}
+
 	//printf("Handling...\n");
 	m_Controller->handle(this);
 	
@@ -81,7 +88,8 @@ void CowRobot::handle()
 	SetRightMotors(tmpRightMotor);
 	if(m_DSUpdateCount % 10 == 0)
 	{
-		printf("Gyro: %f, Encoder: %f\r\n",  m_Gyro->GetAngle(), m_DriveEncoder->GetDistance());
+		printf("Gyro: %f, Encoder: %f\r\n",  m_Gyro->GetAngle(),
+				m_DriveEncoder->GetDistance());
 	}
 
 	if(m_DSUpdateCount % 100 == 0)
@@ -105,7 +113,8 @@ bool CowRobot::DriveDistanceWithHeading(double heading, double distance)
 	double dError = error - m_PreviousDriveError;
 	double output = PID_P*error + PID_D*dError;
 	
-	bool headingResult = DriveWithHeading(heading, CowLib::LimitMix(output, CONSTANT("DRIVE_MAX_SPEED")));
+	bool headingResult = DriveWithHeading(heading,
+			CowLib::LimitMix(output, CONSTANT("DRIVE_MAX_SPEED")));
 	
 	m_PreviousDriveError = error;
 	
@@ -129,10 +138,9 @@ bool CowRobot::DriveWithHeading(double heading, double speed)
 	return (fabs(error) < 1 && CowLib::UnitsPerSecond(fabs(dError)) < 0.5);
 }
 
-/// Allows skid steer robot to be driven using tank drive style inputs
-/// @param leftDriveValue
-/// @param rightDriveValue
-///
+// Allows skid steer robot to be driven using tank drive style inputs
+// @param leftDriveValue
+// @param rightDriveValue
 void CowRobot::DriveLeftRight(float leftDriveValue, float rightDriveValue)
 {
 	m_LeftDriveValue = leftDriveValue;
@@ -141,11 +149,10 @@ void CowRobot::DriveLeftRight(float leftDriveValue, float rightDriveValue)
 
 void CowRobot::DriveSpeedTurn(float speed, float turn, bool quickTurn)
 {
-	//Linear degredation of steeering based off of velocity
-	//	velocity *= 0.003;
+	// Linear degredation of steeering based off of velocity
+	//velocity *= 0.003;
 	float temp_vel = speed;
 	float sensitivity = 0;
-	float unscaled_turn = 0;
 
 	if (temp_vel < 0)
 		temp_vel = -temp_vel;
@@ -154,10 +161,8 @@ void CowRobot::DriveSpeedTurn(float speed, float turn, bool quickTurn)
 	
 	if(speed < 0.10 && speed > -0.10)
 		speed = 0;
-	if (turn < 0.10 && turn > -0.10 || (speed == 0 && !quickTurn))
+	if (((turn < 0.10) && (turn > -0.10)) || ((speed == 0) && !quickTurn))
 		turn = 0;
-
-	unscaled_turn = turn;
 
 	if(quickTurn)
 		sensitivity = 1;
@@ -174,12 +179,11 @@ void CowRobot::DriveSpeedTurn(float speed, float turn, bool quickTurn)
 	DriveLeftRight(left_power, right_power);
 }
 
-/// Allows robot to spin in place
-/// @param turnRate
-///
+// Allows robot to spin in place
+// @param turnRate
 void CowRobot::QuickTurn(float turnRate)
 {
-	//when provided with + turn, quick turn right
+	// when provided with + turn, quick turn right
 
 	float left = -1 * turnRate;
 	float right = turnRate;
@@ -198,7 +202,7 @@ void CowRobot::QuickTurn(float turnRate)
 //	return m_Gyro;
 //}
 
-/// sets the left side motors
+// sets the left side motors
 void CowRobot::SetLeftMotors(float val)
 {
 	if (val > 1.0)
@@ -206,10 +210,13 @@ void CowRobot::SetLeftMotors(float val)
 	if (val < -1.0)
 		val = -1.0;
 
-	m_LeftDrive->Set(-val);
+	m_LeftDriveA->Set(val);
+	m_LeftDriveB->Set(-val);
+	m_LeftDriveC->Set(-val);
+
 }
 
-/// sets the left side motors
+// sets the left side motors
 void CowRobot::SetRightMotors(float val)
 {
 	if (val > 1.0)
@@ -217,7 +224,9 @@ void CowRobot::SetRightMotors(float val)
 	if (val < -1.0)
 		val = -1.0;
 
-	m_RightDrive->Set(val);
+	m_RightDriveA->Set(val);
+	m_RightDriveB->Set(val);
+	m_RightDriveC->Set(-val);
 }
 
 void CowRobot::SetRollerSpeed(float val)

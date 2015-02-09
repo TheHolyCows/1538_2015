@@ -16,14 +16,14 @@ void AutoModeController::SetCommandList(deque<RobotCommand> list)
 
 void AutoModeController::reset()
 {
-	CowConstants * rc = CowConstants::GetInstance();
+	CowConstants::GetInstance();
 
 	m_CommandList.clear();
 	m_CurrentCommand = RobotCommand();
 }
 
 
-void AutoModeController::handle(CowRobot* bot)
+void AutoModeController::handle(CowRobot *bot)
 {
 	bool result = false;
 	
@@ -85,7 +85,7 @@ void AutoModeController::handle(CowRobot* bot)
 }
 
 // Drive Functions
-void AutoModeController::doNothing(CowRobot* bot)
+void AutoModeController::doNothing(CowRobot *bot)
 {
 	bot->DriveLeftRight(0, 0);
 }

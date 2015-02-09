@@ -1,5 +1,5 @@
 //==================================================
-// Copyright (C) 2014 Team 1538 / The Holy Cows
+// Copyright (C) 2015 Team 1538 / The Holy Cows
 //==================================================
 
 #ifndef __OPERATOR_CONTROLLER_H__
@@ -17,10 +17,10 @@ class OperatorController : public GenericController
 {	
 private:
 	OperatorController();
-	CowControlBoard* m_CB;
+	CowControlBoard *m_CB;
 public:
-	OperatorController(CowControlBoard* controlboard);
-	void handle(CowRobot* bot);
+	OperatorController(CowControlBoard *controlboard);
+	void handle(CowRobot *bot);
 };
 
 #endif

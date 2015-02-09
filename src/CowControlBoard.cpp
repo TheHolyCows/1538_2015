@@ -1,6 +1,6 @@
 #include "CowControlBoard.h"
 
-/// Constructor for Cow Control Board
+// Constructor for Cow Control Board
 CowControlBoard::CowControlBoard()
 	:
 	m_DriveStick(new Joystick(0)),
@@ -10,13 +10,13 @@ CowControlBoard::CowControlBoard()
 {
 }
 
-/// Returns state of shifter switch
+// Returns state of shifter switch
 float CowControlBoard::GetDriveAxis(unsigned int axis)
 {
 	return m_DriveStick->GetRawAxis(axis);
 }
 
-/// Returns state of autonomous select button
+// Returns state of autonomous select button
 bool CowControlBoard::GetAutoSelectButton()
 {
 	if(GetDriveButton(AUTON_BUTTON) && !m_PreviousAuto)
@@ -29,7 +29,7 @@ bool CowControlBoard::GetAutoSelectButton()
 }
 
 
-/// Returns the state of the quick turn
+// Returns the state of the quick turn
 bool CowControlBoard::GetQuickTurn()
 {
 	return !GetDriveButton(8);

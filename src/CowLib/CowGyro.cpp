@@ -5,7 +5,8 @@ namespace CowLib
 	CowGyro::CowGyro(uint32_t channel)
 		:
 		//m_RingBuffer(rngCreate(sizeof(st_Accumulation) * COWGYRO_RING_SIZE)),
-		m_CircularBuffer(new CowCircularBuffer(sizeof(st_Accumulation) * COWGYRO_RING_SIZE, true)),
+		m_CircularBuffer(new CowCircularBuffer(sizeof(st_Accumulation) * COWGYRO_RING_SIZE,
+						true)),
 		m_Analog(new AnalogInput(channel)),
 		m_VoltsPerDegreePerSecond(Gyro::kDefaultVoltsPerDegreePerSecond),
 		m_Center(0),
@@ -13,19 +14,6 @@ namespace CowLib
 		m_LastSaveTime(0),
 		m_RecalQueued(true)
 	{
-		/* Testing CowCircularBuffer */
-//		CowCircularBuffer testBuffer(26);
-//		printf("GetSize:%d\n", testBuffer.GetSize())
-//		printf("GetUsed:%d\n", testBuffer.GetUsed());
-//		printf("GetRemaining:%d\n", testBuffer.GetRemaining());
-//		printf("IsEmpty:%d\n", testBuffer.IsEmpty());
-//		printf("IsFull:%d\n", testBuffer.IsFull());
-//
-//		char empty[10];
-//		uint32_t rv;
-//		rv = testBuffer.GetBuffer(empty, 10);
-//		printf("rv of empty buffer get %d\n", rv);
-
 		if(!m_Analog->IsAccumulatorChannel())
 		{
 			//wpi_setWPIErrorWithContext(ParameterOutOfRange,
@@ -39,13 +27,15 @@ namespace CowLib
 		// This is just a copy of part of WPI's InitGyro routine
 		m_Analog->SetAverageBits(Gyro::kAverageBits);
 		m_Analog->SetOversampleBits(Gyro::kOversampleBits);
-		double sampleRate = Gyro::kSamplesPerSecond * (1 << (Gyro::kAverageBits + Gyro::kOversampleBits));
+		double sampleRate = Gyro::kSamplesPerSecond *
+				(1 << (Gyro::kAverageBits + Gyro::kOversampleBits));
 		//m_Analog->GetModule()->SetSampleRate(sampleRate);
 		m_Analog->SetSampleRate(sampleRate);
 		Wait(1.0); // Not sure why we do this, but WPILib does it
 
 		m_Analog->InitAccumulator();
-		//nUsageReporting::report(nUsageReporting::kResourceType_Gyro, m_Analog->GetChannel(), m_Analog->GetModuleNumber() - 1);
+		//nUsageReporting::report(nUsageReporting::kResourceType_Gyro,
+		//			m_Analog->GetChannel(), m_Analog->GetModuleNumber() - 1);
 	}
 
 	CowGyro::~CowGyro()
@@ -73,8 +63,9 @@ namespace CowLib
 
 		int64_t value = rawValue - (int64_t)((float)count * m_Offset);
 
-		return value * 1e-9 * (double)m_Analog->GetLSBWeight() * (double)(1 << m_Analog->GetAverageBits()) /
-			(m_Analog->GetSampleRate() * m_VoltsPerDegreePerSecond);
+		return value * 1e-9 * (double)m_Analog->GetLSBWeight() *
+				(double)(1 << m_Analog->GetAverageBits()) /
+				(m_Analog->GetSampleRate() * m_VoltsPerDegreePerSecond);
 	}
 
 	void CowGyro::Reset()
@@ -133,7 +124,11 @@ namespace CowLib
 
 		m_Offset = average - m_Center;
 
-		printf("Done with CowGyro calibration!\nValue:\t%lld\tCount:%d\nCenter:\t%lld\tOffset:\t%f\n", totalValue, totalCount, m_Center, m_Offset);
+		printf("Done with CowGyro calibration!\nValue:\t%lld\tCount:%d\nCenter:\t%lld\tOffset:\t%f\n",
+				totalValue,
+				totalCount,
+				m_Center,
+				m_Offset);
 
 		m_Analog->SetAccumulatorCenter(m_Center);
 		m_Analog->SetAccumulatorDeadband(0);
