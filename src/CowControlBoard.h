@@ -26,6 +26,7 @@ private:
 	Joystick *m_DriveStick;
 	Joystick *m_DriveWheel;
 	Joystick *m_OperatorPanel;
+	Joystick *m_OperatorGamepad;
 	
 	bool m_PreviousAuto;
 public:
@@ -39,6 +40,8 @@ public:
 	float GetDriveStickY();
 	float GetSteeringX();
 	
+	float GetOperatorGamepadAxis(unsigned int axis);
+
 	bool GetDriveButton(int button);
 	bool GetSteeringButton(int button);
 	bool GetOperatorButton(int button);

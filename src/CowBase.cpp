@@ -1,16 +1,24 @@
 #include "CowBase.h"
+#include <string.h>
 
 CowBase::CowBase()
 	:
-	m_Bot(new CowRobot()),
 	m_ControlBoard(new CowControlBoard()),
 	m_OpController(new OperatorController(m_ControlBoard)),
 	m_AutoController(new AutoModeController()),
-	m_Constants(CowConstants::GetInstance())
+	m_Constants(CowConstants::GetInstance()),
+	m_PeriodicCount(0),
+	m_ScrollCount(0)
 {	
+	CowConstants::GetInstance()->RestoreData();
+	m_Bot = new CowRobot();
+	const char *banner = "Team 1538 The Holy Cows";
+
 	//SetPeriod(HZ(ROBOT_HZ));
 	//GetWatchdog().SetEnabled(false);
 	printf("Done constructing CowBase!\n");
+
+	strcpy((char *)m_Banner, banner);
 }
 
 void CowBase::RobotInit()
@@ -24,7 +32,7 @@ void CowBase::DisabledInit()
 
 void CowBase::AutonomousInit()
 {
-	m_Bot->GyroFinalizeCalibration();
+	//m_Bot->GyroFinalizeCalibration();
 	
 	m_AutoController->SetCommandList(AutoModes::GetInstance()->GetCommandList());
 	m_Bot->SetController(m_AutoController);
@@ -32,7 +40,7 @@ void CowBase::AutonomousInit()
 }
 void CowBase::TeleopInit()
 {
-	m_Bot->GyroFinalizeCalibration();
+	//m_Bot->GyroFinalizeCalibration();
 
 	m_Bot->SetController(m_OpController);
 	m_Bot->Reset();
@@ -57,8 +65,27 @@ void CowBase::TeleopContinuous()
 
 void CowBase::DisabledPeriodic()
 {
-	m_Bot->GyroHandleCalibration();
-	
+	//m_Bot->GyroHandleCalibration();
+	m_PeriodicCount++;
+	if(m_Bot->GetDisplay())
+	{
+		if((m_PeriodicCount % 10) == 0)
+		{
+			m_ScrollCount++;
+
+			m_Bot->GetDisplay()->WriteAscii(0, m_Banner[(m_ScrollCount)%24]);
+			m_Bot->GetDisplay()->WriteAscii(1, m_Banner[(m_ScrollCount+1)%24]);
+			m_Bot->GetDisplay()->WriteAscii(2, m_Banner[(m_ScrollCount+2)%24]);
+			m_Bot->GetDisplay()->WriteAscii(3, m_Banner[(m_ScrollCount+3)%24]);
+			m_Bot->GetDisplay()->Display();
+//			if (m_ScrollCount == '~')
+//			{
+//				m_ScrollCount = '!';
+//			}
+		}
+	}
+
+
 //	if(m_ControlBoard->GetAutoSelectButton())
 //	{
 //		if(m_ControlBoard->GetDriveButton(3))

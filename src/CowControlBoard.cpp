@@ -5,7 +5,8 @@ CowControlBoard::CowControlBoard()
 	:
 	m_DriveStick(new Joystick(0)),
 	m_DriveWheel(new Joystick(1)),
-	m_OperatorPanel(new Joystick(3)),
+	m_OperatorPanel(new Joystick(2)),
+	m_OperatorGamepad(new Joystick(3)),
 	m_PreviousAuto(false)
 {
 }
@@ -58,4 +59,9 @@ bool CowControlBoard::GetOperatorButton(const int button)
 bool CowControlBoard::GetSteeringButton(const int button)
 {
 	return m_DriveWheel->GetRawButton(button);
+}
+
+float CowControlBoard::GetOperatorGamepadAxis(unsigned int axis)
+{
+	return m_OperatorGamepad->GetRawAxis(axis);
 }

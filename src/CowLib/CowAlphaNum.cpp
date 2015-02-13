@@ -136,10 +136,17 @@ namespace CowLib
 
 	CowAlphaNum::CowAlphaNum(uint8_t address)
 		:
-		m_Address(address),
-		m_Register(0), // just in case
-		m_I2C(new I2C(I2C::kMXP, address))
+		m_Address(0x70),
+		m_I2C(new I2C(I2C::kMXP, 0x70))
 	{
+		memset(m_DisplayBuffer, 0, sizeof(m_DisplayBuffer));
+		uint8_t oscillator = 0x21;
+
+		//Oscillator on
+		m_I2C->WriteBulk(&oscillator, sizeof(oscillator));
+
+		BlinkRate(HT16K33_BLINK_OFF);
+		SetBrightness(15);
 	}
 
 	CowAlphaNum::~CowAlphaNum()
@@ -150,30 +157,49 @@ namespace CowLib
 		}
 	}
 
-	void CowAlphaNum::WriteAscii(uint32_t n, uint8_t c)
-	{
-		uint16_t font = m_Table[c];
-		m_DisplayBuffer[n] = font;
-		m_DisplayBuffer[n] |= (1 << 14);
-	}
-
 	void CowAlphaNum::WriteRaw(uint32_t n, uint16_t d)
 	{
 		m_DisplayBuffer[n] = d;
 	}
 
+	void CowAlphaNum::BlinkRate(uint8_t b)
+	{
+		if(b > 3) b = 0;
+		b = HT16K33_BLINK_CMD | HT16K33_BLINK_DISPLAYON | (b << 1);
+		m_I2C->WriteBulk(&b, sizeof(b));
+	}
+
+	void CowAlphaNum::SetBrightness(uint8_t b)
+	{
+		if (b > 15) b = 15;
+		b = HT16K33_CMD_BRIGHTNESS | b;
+		m_I2C->WriteBulk(&b, sizeof(b));
+	}
+
+	void CowAlphaNum::WriteAscii(uint32_t n, uint8_t c)
+	{
+		uint8_t u = (m_Table[c] >> 8) & 0xff;
+		uint8_t l = m_Table[c] & 0xff;
+
+		m_DisplayBuffer[(n*2)+1] = l;
+		m_DisplayBuffer[(n*2)+2] = u;
+	}
+
+	void CowAlphaNum::Clear()
+	{
+		memset(m_DisplayBuffer, 0, sizeof(m_DisplayBuffer));
+	}
+
 	void CowAlphaNum::Display()
 	{
-		uint32_t i;
-		//m_I2C->WriteBulk
-
-		// do we need this?
-		m_I2C->Write(m_Register, 0);
-
-		for (i = 0; i < 4; ++i)
+		m_I2C->WriteBulk(m_DisplayBuffer, sizeof(m_DisplayBuffer));
+		if (m_DisplayBuffer[16] == 0x81)
 		{
-			m_I2C->Write(m_Register, m_DisplayBuffer[i] && 0xff);
-			m_I2C->Write(m_Register, m_DisplayBuffer[i] >> 8);
+			m_DisplayBuffer[16] = 0x00;
+		}
+		else
+		{
+			m_DisplayBuffer[16] = 0x81;
 		}
 	}
 }

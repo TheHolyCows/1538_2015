@@ -21,6 +21,9 @@ private:
 	OperatorController *m_OpController;
 	AutoModeController *m_AutoController;
 	CowConstants *m_Constants;
+	uint32_t m_PeriodicCount;
+	uint8_t m_ScrollCount;
+	uint8_t m_Banner[25];
 public:
 	CowBase();
 	void RobotInit();

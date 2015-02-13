@@ -13,6 +13,8 @@
 #include "CowControlBoard.h"
 #include "CounterBase.h"
 #include "CowConstants.h"
+#include "CowLib/CowAlphaNum.h"
+
 
 class CowRobot
 {
@@ -33,12 +35,14 @@ private:
 
 	Talon *m_Roller;
 	
-	CowLib::CowGyro *m_Gyro;
+	Gyro *m_Gyro;
 	Encoder *m_DriveEncoder;
 	
 	Pincher *m_Pincher;
-	Spool *m_SpoolA;
-	Spool *m_SpoolB;
+	Spool *m_VerticalLift;
+	Spool *m_HorizontalLift;
+
+	CowLib::CowAlphaNum *m_LEDDisplay;
 
 	float m_LeftDriveValue;
 	float m_RightDriveValue;
@@ -65,7 +69,12 @@ public:
 	
 	void SetRollerSpeed(float val);
 
-	CowLib::CowGyro *GetGyro()
+	CowLib::CowAlphaNum *GetDisplay()
+	{
+		return m_LEDDisplay;
+	}
+
+	Gyro *GetGyro()
 	{
 		return m_Gyro;
 	}
@@ -73,6 +82,16 @@ public:
 	Encoder *GetEncoder()
 	{
 		return m_DriveEncoder;
+	}
+
+	Spool *GetVerticalLift()
+	{
+		return m_VerticalLift;
+	}
+
+	Spool *GetHorizontalLift()
+	{
+		return m_HorizontalLift;
 	}
 
 	void handle();

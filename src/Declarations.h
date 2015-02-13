@@ -41,7 +41,7 @@
 #define SOLENOID_WINCH_FIRE				1
 
 // Analog inputs
-#define ANALOG_GYRO						1
+#define ANALOG_GYRO						0
 #define ANALOG_WINCH_POT				2
 #define ANALOG_REAR_IR					3
 #define ANALOG_FRONT_IR					4
