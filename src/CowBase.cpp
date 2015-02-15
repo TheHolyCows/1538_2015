@@ -7,18 +7,17 @@ CowBase::CowBase()
 	m_OpController(new OperatorController(m_ControlBoard)),
 	m_AutoController(new AutoModeController()),
 	m_Constants(CowConstants::GetInstance()),
-	m_PeriodicCount(0),
-	m_ScrollCount(0)
+	m_UserState(0),
+	m_UserPeriodicCount(0),
+	m_UserScrollCount(0),
+	m_ButtonPressedOnce(false)
 {	
 	CowConstants::GetInstance()->RestoreData();
 	m_Bot = new CowRobot();
-	const char *banner = "Team 1538 The Holy Cows";
 
 	//SetPeriod(HZ(ROBOT_HZ));
 	//GetWatchdog().SetEnabled(false);
 	printf("Done constructing CowBase!\n");
-
-	strcpy((char *)m_Banner, banner);
 }
 
 void CowBase::RobotInit()
@@ -63,28 +62,88 @@ void CowBase::TeleopContinuous()
 	//taskDelay(WAIT_FOREVER);
 }
 
+void CowBase::DisplayNextState(CowLib::CowAlphaNum *display)
+{
+	if (m_UserState == 0)
+	{
+		m_UserState = 1;
+		display->SetBanner("Mode 1.0 ");
+	}
+	else if (m_UserState == 1)
+	{
+		m_UserState = 2;
+		display->SetBanner("Mode 2.0 ");
+	}
+	else if (m_UserState == 2)
+	{
+		m_UserState = 3;
+		display->SetBanner("Mode 3.0 ");
+	}
+	else if (m_UserState == 3)
+	{
+		m_UserState = 0;
+		display->SetBanner("Team 1538 The Holy Cows ");
+	}
+
+	m_UserScrollCount = 0;
+	display->SetBannerPosition(m_UserScrollCount);
+	display->DisplayBanner();
+}
+
+void CowBase::DisplayDiag(bool user, CowLib::CowAlphaNum *display)
+{
+	m_UserPeriodicCount++;
+
+	if (user)
+	{
+		DisplayNextState(display);
+	}
+	else if (m_UserState == 0)
+	{
+		if ((m_UserPeriodicCount % 10) == 0)
+		{
+			m_UserScrollCount++;
+			display->SetBanner("Team 1538 The Holy Cows ");
+			display->SetBannerPosition(m_UserScrollCount);
+			display->DisplayBanner();
+		}
+	}
+	else
+	{
+		if ((m_UserPeriodicCount % 300) == 0)
+		{
+			DisplayNextState(display);
+		}
+		else if ((m_UserPeriodicCount % 10) == 0)
+		{
+			m_UserScrollCount++;
+			display->SetBannerPosition(m_UserScrollCount);
+			display->DisplayBanner();
+		}
+	}
+}
+
 void CowBase::DisabledPeriodic()
 {
 	//m_Bot->GyroHandleCalibration();
-	m_PeriodicCount++;
-	if(m_Bot->GetDisplay())
-	{
-		if((m_PeriodicCount % 10) == 0)
-		{
-			m_ScrollCount++;
 
-			m_Bot->GetDisplay()->WriteAscii(0, m_Banner[(m_ScrollCount)%24]);
-			m_Bot->GetDisplay()->WriteAscii(1, m_Banner[(m_ScrollCount+1)%24]);
-			m_Bot->GetDisplay()->WriteAscii(2, m_Banner[(m_ScrollCount+2)%24]);
-			m_Bot->GetDisplay()->WriteAscii(3, m_Banner[(m_ScrollCount+3)%24]);
-			m_Bot->GetDisplay()->Display();
-//			if (m_ScrollCount == '~')
-//			{
-//				m_ScrollCount = '!';
-//			}
-		}
+	bool userButtonPressed = GetUserButton();
+	bool buttonValue = false;
+
+	if (userButtonPressed && !m_ButtonPressedOnce)
+	{
+		buttonValue = true;
+		m_ButtonPressedOnce = true;
+	}
+	else if(!userButtonPressed && m_ButtonPressedOnce)
+	{
+		m_ButtonPressedOnce = false;
 	}
 
+	if (m_Bot->GetDisplay())
+	{
+		DisplayDiag(buttonValue, m_Bot->GetDisplay());
+	}
 
 	if(m_ControlBoard->GetAutoSelectButton())
 	{

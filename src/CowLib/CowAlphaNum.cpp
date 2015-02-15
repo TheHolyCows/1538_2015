@@ -137,14 +137,14 @@ namespace CowLib
 	CowAlphaNum::CowAlphaNum(uint8_t address)
 		:
 		m_Address(0x70),
-		m_I2C(new I2C(I2C::kMXP, 0x70))
+		m_I2C(new I2C(I2C::kMXP, 0x70)),
+		m_Banner(0),
+		m_BannerLength(0),
+		m_BannerPosition(0)
 	{
 		memset(m_DisplayBuffer, 0, sizeof(m_DisplayBuffer));
-		uint8_t oscillator = 0x21;
 
-		//Oscillator on
-		m_I2C->WriteBulk(&oscillator, sizeof(oscillator));
-
+		OscillatorOn();
 		BlinkRate(HT16K33_BLINK_OFF);
 		SetBrightness(15);
 	}
@@ -157,16 +157,17 @@ namespace CowLib
 		}
 	}
 
-	void CowAlphaNum::WriteRaw(uint32_t n, uint16_t d)
-	{
-		m_DisplayBuffer[n] = d;
-	}
-
 	void CowAlphaNum::BlinkRate(uint8_t b)
 	{
 		if(b > 3) b = 0;
 		b = HT16K33_BLINK_CMD | HT16K33_BLINK_DISPLAYON | (b << 1);
 		m_I2C->WriteBulk(&b, sizeof(b));
+	}
+
+	void CowAlphaNum::OscillatorOn()
+	{
+		uint8_t oscillator = HT16K33_OSCILLATOR;
+		m_I2C->WriteBulk(&oscillator, sizeof(oscillator));
 	}
 
 	void CowAlphaNum::SetBrightness(uint8_t b)
@@ -176,13 +177,34 @@ namespace CowLib
 		m_I2C->WriteBulk(&b, sizeof(b));
 	}
 
-	void CowAlphaNum::WriteAscii(uint32_t n, uint8_t c)
+	void CowAlphaNum::WriteAscii(uint32_t n, uint8_t c, bool d)
 	{
-		uint8_t u = (m_Table[c] >> 8) & 0xff;
+		if (n > 3)
+		{
+			return;
+		}
+
 		uint8_t l = m_Table[c] & 0xff;
+		uint8_t u = (m_Table[c] >> 8) & 0xff;
 
 		m_DisplayBuffer[(n*2)+1] = l;
 		m_DisplayBuffer[(n*2)+2] = u;
+
+		if (d)
+		{
+			m_DisplayBuffer[(n*2)+2] |= (1 << 6);
+		}
+	}
+
+	void CowAlphaNum::WriteRaw(uint32_t n, uint16_t d)
+	{
+		if (n > (sizeof(m_DisplayBuffer) - 1))
+		{
+			return;
+		}
+
+		m_DisplayBuffer[(n*2)+1] = d & 0xff;
+		m_DisplayBuffer[(n*2)+2] = (d >> 8) & 0xff;
 	}
 
 	void CowAlphaNum::Clear()
@@ -193,13 +215,73 @@ namespace CowLib
 	void CowAlphaNum::Display()
 	{
 		m_I2C->WriteBulk(m_DisplayBuffer, sizeof(m_DisplayBuffer));
-		if (m_DisplayBuffer[16] == 0x81)
+		if (m_DisplayBuffer[sizeof(m_DisplayBuffer)-1] == 0x81)
 		{
-			m_DisplayBuffer[16] = 0x00;
+			m_DisplayBuffer[sizeof(m_DisplayBuffer)-1] = 0x00;
 		}
 		else
 		{
-			m_DisplayBuffer[16] = 0x81;
+			m_DisplayBuffer[sizeof(m_DisplayBuffer)-1] = 0x81;
 		}
+	}
+
+	void CowAlphaNum::SetBanner(std::string msg)
+	{
+		uint32_t rawMsgCount = 0;
+		uint32_t firstIndex = 0;
+		uint32_t i, j;
+
+		for (i = 0; i < msg.length(); ++i)
+		{
+			if (msg[i] != '.')
+			{
+				firstIndex = i;
+				break;
+			}
+		}
+
+		for (; i < msg.length(); ++i)
+		{
+			if (msg[i] != '.')
+			{
+				rawMsgCount++;
+			}
+		}
+
+		if (m_Banner)
+		{
+			delete[] m_Banner;
+		}
+
+		m_Banner = new uint16_t[rawMsgCount];
+		m_BannerLength = rawMsgCount;
+
+		j = firstIndex;
+		for (i = 0; i < rawMsgCount; ++i)
+		{
+			m_Banner[i] = m_Table[static_cast<uint8_t>(msg[j])];
+			if (((j+1) < msg.length()) && (msg[j+1] == '.'))
+			{
+				m_Banner[i] |= (1 << 14);
+				j++;
+			}
+			j++;
+		}
+	}
+
+	void CowAlphaNum::SetBannerPosition(uint32_t pos)
+	{
+		m_BannerPosition = pos;
+	}
+
+	void CowAlphaNum::DisplayBanner()
+	{
+		uint8_t i;
+		for (i = 0; i < 4; ++i )
+		{
+			WriteRaw(i, m_Banner[(m_BannerPosition + i)  % m_BannerLength]);
+		}
+
+		Display();
 	}
 }
