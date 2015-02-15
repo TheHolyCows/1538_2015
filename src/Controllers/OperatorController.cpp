@@ -10,16 +10,9 @@ OperatorController::OperatorController(CowControlBoard *controlboard)
 void OperatorController::handle(CowRobot *bot)
 {
 	//printf("Controlling...\n");
-	//bot->DriveSpeedTurn(m_CB->GetDriveStickY(), m_CB->GetSteeringX(), m_CB->GetSteeringButton(FAST_TURN));
-
-	bot->GetHorizontalLift()->UpdateSetPoint(0);
-
 	bot->DriveSpeedTurn(m_CB->GetDriveStickY(),
 						m_CB->GetSteeringX(),
 				 		m_CB->GetSteeringButton(FAST_TURN));
-
-
-	//bot->GetPincher()->ManualControl(m_CB->GetOperatorGamepadAxis(1), m_CB->GetOperatorGamepadAxis(0));
 
 	if(m_CB->GetSteeringButton(1))
 	{
@@ -52,9 +45,11 @@ void OperatorController::handle(CowRobot *bot)
 		bot->GetVerticalLift()->UpdateSetPoint(CONSTANT("VERTICAL_BASE_TOTE"));
 	}
 
-	bot->GetVerticalLift()->UpdateSetPoint(bot->GetVerticalLift()->GetPosition() + m_CB->GetOperatorGamepadAxis(1)*1.5);
-	//bot->GetHorizontalLift()->UpdateSetPoint(bot->GetVerticalLift()->GetPosition() + m_CB->GetOperatorGamepadAxis(2)*5.0);
-	//bot->GetHorizontalLift()->
+	float vLiftJoystick = CowLib::Deadband(m_CB->GetOperatorGamepadAxis(1), 0.2) * 1.5;
+	float hLiftJoystick = CowLib::Deadband(m_CB->GetOperatorGamepadAxis(0), 0.4) * 1.5;
+
+	bot->GetVerticalLift()->UpdateSetPoint(bot->GetVerticalLift()->GetPosition() + vLiftJoystick);
+	bot->GetHorizontalLift()->UpdateSetPoint(bot->GetHorizontalLift()->GetPosition() + hLiftJoystick);
 
 	float pincher_position = 0;
 	if(m_CB->GetOperatorButton(3))

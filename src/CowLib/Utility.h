@@ -37,6 +37,18 @@ namespace CowLib
 	
 	// converts units per robot period to units per second
 	double UnitsPerSecond(double value);
+
+	inline double Deadband(double value, double bandsize)
+	{
+		if(value > -bandsize && value < bandsize)
+		{
+			return 0;
+		}
+		else
+		{
+			return value;
+		}
+	}
 }
 
 

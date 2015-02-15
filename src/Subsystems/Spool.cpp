@@ -93,10 +93,8 @@ void Spool::handle()
 	}
 
 	m_PID_P_Previous = m_PID_P;
-	//std::cout << "sp: " << m_SetPoint << " pv: " << m_Encoder->GetDistance() << std::endl;
 	if(m_PIDEnabled)
 	{
-		//Todo: Write PID shit
 		m_MotorA->Set(m_PIDOutput);
 
 		if(m_MotorB)
@@ -110,26 +108,7 @@ void Spool::handle()
 		if(m_MotorB)
 		{
 			m_MotorB->Set(m_ManualSpeed);
-//			std::cout << m_Name
-//					  << " c:"
-//					  << m_MotorA->GetOutputCurrent()
-//					  << ", "
-//					  << m_MotorB->GetOutputCurrent()
-//					  << ", enc: "
-//					  << m_Encoder->GetDistance()
-//					  << std::endl;
 		}
-		else
-		{
-//			std::cout << m_Name
-//					  << " c:"
-//					  << m_MotorA->GetOutputCurrent()
-//					  << ", enc: "
-//					  << m_Encoder->GetDistance()
-//					  << std::endl;
-		}
-
-
 	}
 }
 

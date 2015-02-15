@@ -33,14 +33,8 @@ CowRobot::CowRobot()
 
 	//Todo: Get PID auto enabling to work
 	//m_VerticalLift->DisablePID();
-//	m_HorizontalLift->DisablePID();
-//
-//	(unsigned int intakeA,
-//			unsigned int intakeB,
-//			unsigned int pincherMotorA,
-//			unsigned int pincherMotorB,
-//			unsigned int encoderA,
-//			unsigned int encoderB)
+	//m_HorizontalLift->DisablePID();
+
 	m_Pincher = new Pincher(LEFT_INTAKE, RIGHT_INTAKE, PINCHER_A, PINCHER_B, MXP_GRABBER_A, MXP_GRABBER_B);
 
 	m_LeftDriveValue = 0;
