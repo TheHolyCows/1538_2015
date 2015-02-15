@@ -11,8 +11,8 @@
 class Spool
 {
 public:
-	Spool(std::string name, uint8_t motorAID, uint8_t motorBID, uint8_t encA, uint8_t encB);
-	Spool(std::string name, uint8_t motorAID, uint8_t encA, uint8_t encB);
+	Spool(std::string name, uint8_t motorAID, uint8_t motorBID, uint8_t encA, uint8_t encB, bool reversePID);
+	Spool(std::string name, uint8_t motorAID, uint8_t encA, uint8_t encB, bool reversePID);
 
 	virtual ~Spool();
 	void handle();
@@ -24,6 +24,7 @@ public:
 	void DisablePID();
 
 private:
+	bool m_ReversePID;
 	CANTalon *m_MotorA;
 	CANTalon *m_MotorB;
 	Encoder *m_Encoder;

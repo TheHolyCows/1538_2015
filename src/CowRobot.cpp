@@ -11,20 +11,15 @@ CowRobot::CowRobot()
 		
 	m_Controller = NULL;
 	// Set up drive motors
-	m_LeftDriveA = new CANTalon(1);
-	m_LeftDriveB = new CANTalon(2);
-	m_LeftDriveC = new CANTalon(3);
+	m_LeftDriveA = new CANTalon(DRIVE_LEFT_A);
+	m_LeftDriveB = new CANTalon(DRIVE_LEFT_B);
+	m_LeftDriveC = new CANTalon(DRIVE_LEFT_C);
 
-	m_RightDriveA = new CANTalon(4);
-	m_RightDriveB = new CANTalon(5);
-	m_RightDriveC = new CANTalon(6);
+	m_RightDriveA = new CANTalon(DRIVE_RIGHT_A);
+	m_RightDriveB = new CANTalon(DRIVE_RIGHT_B);
+	m_RightDriveC = new CANTalon(DRIVE_RIGHT_C);
 
 	m_LEDDisplay = new CowLib::CowAlphaNum(0x70);
-
-
-	m_Roller = new Talon(0);
-
-	//m_SolenoidA = new Solenoid(0);
 
 	m_Gyro = new Gyro(0);
 	m_Gyro->SetSensitivity(0.007);
@@ -33,18 +28,21 @@ CowRobot::CowRobot()
 	m_DriveEncoder = new Encoder(0, 1, true, Encoder::k1X);
 	m_DriveEncoder->SetDistancePerPulse(0.03490658503); // 4*pi/360
 
-	m_VerticalLift = new Spool("VSPOOL", 13, 14, 18, 19);
-	m_HorizontalLift = new Spool("HSPOOL", 12, 16, 17);
+	m_VerticalLift = new Spool("VSPOOL", VSPOOL_A, VSPOOL_B, MXP_VSPOOL_A, MXP_VSPOOL_B, true);
+	m_HorizontalLift = new Spool("HSPOOL", HSPOOL_A, MXP_HSPOOL_A, MXP_HSPOOL_B, true);
 
 	//Todo: Get PID auto enabling to work
-	m_VerticalLift->DisablePID();
+	//m_VerticalLift->DisablePID();
+//	m_HorizontalLift->DisablePID();
+//
+//	(unsigned int intakeA,
+//			unsigned int intakeB,
+//			unsigned int pincherMotorA,
+//			unsigned int pincherMotorB,
+//			unsigned int encoderA,
+//			unsigned int encoderB)
+	m_Pincher = new Pincher(LEFT_INTAKE, RIGHT_INTAKE, PINCHER_A, PINCHER_B, MXP_GRABBER_A, MXP_GRABBER_B);
 
-//	m_VerticalEncoder = new Encoder(18, 19, true, Encoder::k1X);
-//	m_HorizontalEncoder = new Encoder(16, 17, true, Encoder::k1X);
-//	m_GrabberEncoder = new Encoder(14, 15, true, Encoder::k1X);
-
-	//m_DriveEncoder->Start();
-	
 	m_LeftDriveValue = 0;
 	m_RightDriveValue = 0;
 	
@@ -94,6 +92,7 @@ void CowRobot::handle()
 	m_Controller->handle(this);
 	m_VerticalLift->handle();
 	m_HorizontalLift->handle();
+	m_Pincher->handle();
 	
 	// Default drive
 	float tmpLeftMotor = m_LeftDriveValue;
@@ -103,8 +102,8 @@ void CowRobot::handle()
 	SetRightMotors(tmpRightMotor);
 	if(m_DSUpdateCount % 10 == 0)
 	{
-		//printf("Gyro: %f, DENC: %f\r\n",  m_Gyro->GetAngle(),
-		//		m_DriveEncoder->GetDistance());
+		printf("Gyro: %f, VSP: %f\r\n",  m_Gyro->GetAngle(),
+				m_VerticalLift->GetPosition());
 	}
 
 	if(m_DSUpdateCount % 100 == 0)
@@ -182,7 +181,7 @@ void CowRobot::DriveSpeedTurn(float speed, float turn, bool quickTurn)
 	if(quickTurn)
 		sensitivity = 1;
 	else
-		sensitivity = 0.4;
+		sensitivity = 0.22;
 
 	turn *= sensitivity;
 	turn = -turn;
@@ -242,11 +241,6 @@ void CowRobot::SetRightMotors(float val)
 	m_RightDriveA->Set(val);
 	m_RightDriveB->Set(val);
 	m_RightDriveC->Set(-val);
-}
-
-void CowRobot::SetRollerSpeed(float val)
-{
-	m_Roller->Set(val);
 }
 
 //void CowRobot::GyroHandleCalibration()

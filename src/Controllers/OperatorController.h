@@ -21,6 +21,8 @@ private:
 public:
 	OperatorController(CowControlBoard *controlboard);
 	void handle(CowRobot *bot);
+
+	bool setPinchOnce;
 };
 
 #endif

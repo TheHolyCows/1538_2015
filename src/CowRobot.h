@@ -32,8 +32,6 @@ private:
 	CANTalon *m_RightDriveA;
 	CANTalon *m_RightDriveB;
 	CANTalon *m_RightDriveC;
-
-	Talon *m_Roller;
 	
 	Gyro *m_Gyro;
 	Encoder *m_DriveEncoder;
@@ -67,8 +65,6 @@ public:
 	void DriveLeftRight(float leftDriveValue, float rightDriveValue);
 	void QuickTurn(float turn);
 	
-	void SetRollerSpeed(float val);
-
 	CowLib::CowAlphaNum *GetDisplay()
 	{
 		return m_LEDDisplay;
@@ -92,6 +88,11 @@ public:
 	Spool *GetHorizontalLift()
 	{
 		return m_HorizontalLift;
+	}
+
+	Pincher *GetPincher()
+	{
+		return m_Pincher;
 	}
 
 	void handle();

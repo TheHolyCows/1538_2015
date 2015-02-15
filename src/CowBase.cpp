@@ -86,19 +86,20 @@ void CowBase::DisabledPeriodic()
 	}
 
 
-//	if(m_ControlBoard->GetAutoSelectButton())
-//	{
-//		if(m_ControlBoard->GetDriveButton(3))
+	if(m_ControlBoard->GetAutoSelectButton())
+	{
+		m_Constants->RestoreData();
+
+//		if(m_ControlBoard->GetDriveButton(0))
 //		{
-//			m_Bot->Reset();
-//			m_Constants->RestoreData();
-//			AutoModes::GetInstance()->NextMode();
+//			//m_Bot->Reset();
+//			//AutoModes::GetInstance()->NextMode();
 //		}
-////		else
-////		{
-////			m_Bot->GyroFinalizeCalibration();
-////		}
-//	}
+//		else
+//		{
+//			m_Bot->GyroFinalizeCalibration();
+//		}
+	}
 	
 //	m_Bot->PrintToDS();
 }

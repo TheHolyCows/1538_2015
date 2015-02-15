@@ -10,21 +10,39 @@
 class Pincher
 {
 public:
-	Pincher(unsigned int intakeA,
-			unsigned int intakeB,
+	Pincher(unsigned int leftIntake,
+			unsigned int rightIntake,
 			unsigned int extendMotorA,
-			unsigned int extendMotorB);
+			unsigned int extendMotorB,
+			unsigned int encoderA,
+			unsigned int encoderB);
 	virtual ~Pincher();
 	void handle();
-	void UpdateSetPoint();
+	void UpdateSetPoint(float setpoint);
+	void ManualControl(float intake, float pincher);
 	float GetPosition();
 
+	void EnablePID();
+	void DisablePID();
+
 private:
-	CANTalon *m_IntakeA;
-	CANTalon *m_IntakeB;
-	CANTalon *m_ExtendMotorA;
-	CANTalon *m_ExtendMotorB;
+	float m_IntakeSpeed;
+	float m_PincherSpeed;
+
+	CANTalon *m_LeftIntake;
+	CANTalon *m_RightIntake;
+	CANTalon *m_PincherA;
+	CANTalon *m_PincherB;
 	Encoder *m_Encoder;
+
+	bool m_PIDEnabled;
+
+	float m_SetPoint;
+	float m_PIDOutput;
+	float m_PID_P;
+	float m_PID_D;
+	float m_PID_P_Previous;
+
 };
 
 #endif /* __PINCHER_H__ */

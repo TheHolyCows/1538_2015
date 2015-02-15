@@ -16,29 +16,30 @@
 
 #define GYRO_SENSITIVITY				0.007
 
-#define EXHAUST_REAR					4
-#define EXHAUST_FRONT					1
-#define INTAKE_FRONT					3
-#define INTAKE_REAR						2
-#define FAR								5
+// CAN IDs
+#define DRIVE_LEFT_A					1
+#define DRIVE_LEFT_B					2
+#define DRIVE_LEFT_C					3
+#define DRIVE_RIGHT_A					4
+#define DRIVE_RIGHT_B					5
+#define DRIVE_RIGHT_C					6
+#define UNUSED_CAN						7
+#define PINCHER_A						8
+#define PINCHER_B						9
+#define LEFT_INTAKE						10
+#define RIGHT_INTAKE					11
+#define HSPOOL_A						12
+#define VSPOOL_A						13
+#define VSPOOL_B						14
 
-// PWM ports
-#define PWM_LEFT_DRIVE					1
-#define PWM_FRONT_INTAKE_A				2
-#define PWM_FRONT_INTAKE_B				3
-#define PWM_REAR_INTAKE_A				4
-#define PWM_REAR_INTAKE_B				5
-#define PWM_WINCH_A						6
-#define PWM_WINCH_B						7
-#define PWM_RIGHT_DRIVE					8
-
-// Solenoid outputs
-#define SOLENOID_FRONT_INTAKE_A			6
-#define SOLENOID_FRONT_INTAKE_B			3
-#define SOLENOID_REAR_INTAKE_A			5
-#define SOLENOID_REAR_INTAKE_B			4
-#define SOLENOID_WINCH_LOCK				2
-#define SOLENOID_WINCH_FIRE				1
+#define MXP_DRIVE_A						12
+#define MXP_DRIVE_B						13
+#define MXP_GRABBER_A					14
+#define MXP_GRABBER_B					15
+#define MXP_HSPOOL_A					16
+#define MXP_HSPOOL_B					17
+#define MXP_VSPOOL_A					18
+#define MXP_VSPOOL_B					19
 
 // Analog inputs
 #define ANALOG_GYRO						0

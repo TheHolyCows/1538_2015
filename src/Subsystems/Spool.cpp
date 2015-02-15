@@ -3,7 +3,7 @@
 #include "../CowConstants.h"
 
 
-Spool::Spool(std::string name, uint8_t motorAID, uint8_t motorBID, uint8_t encA, uint8_t encB)
+Spool::Spool(std::string name, uint8_t motorAID, uint8_t motorBID, uint8_t encA, uint8_t encB, bool reversePID)
 	:
 	m_Name(name),
 	m_MotorA(new CANTalon(motorAID)),
@@ -14,12 +14,13 @@ Spool::Spool(std::string name, uint8_t motorAID, uint8_t motorBID, uint8_t encA,
 	m_PID_P(0),
 	m_PID_D(0),
 	m_PID_P_Previous(0),
-	m_ManualSpeed(0)
+	m_ManualSpeed(0),
+	m_ReversePID(reversePID)
 {
 	m_Encoder->SetDistancePerPulse(0.01745327777778);
 }
 
-Spool::Spool(std::string name, uint8_t motorAID, uint8_t encA, uint8_t encB)
+Spool::Spool(std::string name, uint8_t motorAID, uint8_t encA, uint8_t encB, bool reversePID)
 	:
 	m_Name(name),
 	m_MotorA(new CANTalon(motorAID)),
@@ -30,7 +31,8 @@ Spool::Spool(std::string name, uint8_t motorAID, uint8_t encA, uint8_t encB)
 	m_PID_P(0),
 	m_PID_D(0),
 	m_PID_P_Previous(0),
-	m_ManualSpeed(0)
+	m_ManualSpeed(0),
+	m_ReversePID(reversePID)
 {
 	m_Encoder->SetDistancePerPulse(0.01745327777778);
 }
@@ -57,14 +59,41 @@ void Spool::handle()
 {
 	std::string PID_P_CONSTANT = m_Name + "_PID_P";
 	std::string PID_D_CONSTANT = m_Name + "_PID_D";
-
+	std::string RESET_CURRENT_CONSTANT = m_Name + "_RESET_CURRENT";
 
 	m_PID_P = m_SetPoint - m_Encoder->GetDistance();
 	m_PID_D = m_PID_P - m_PID_P_Previous;
 	m_PIDOutput = (m_PID_P * CONSTANT(PID_P_CONSTANT.c_str()) + (m_PID_D * CONSTANT(PID_D_CONSTANT.c_str())));
-	m_PIDOutput = -m_PIDOutput;
+
+	if(m_Encoder->GetDistance() > -0.4)
+	{
+		float avgCurrent = m_MotorA->GetOutputCurrent();
+		float avgVoltage = m_MotorA->GetOutputVoltage();
+		if(m_MotorB)
+		{
+			avgCurrent += m_MotorB->GetOutputCurrent();
+			avgVoltage += m_MotorB->GetOutputVoltage();
+			avgCurrent /= 2.0;
+			avgVoltage /= 2.0;
+		}
+
+		if(avgCurrent < CONSTANT(RESET_CURRENT_CONSTANT.c_str()) &&
+		   avgVoltage < 0.0)
+		{
+		//	m_Encoder->Reset();
+			std::cout << "RESET ENCODER FOR " << m_Name << std::endl;
+		}
+
+		//std::cout << m_Name << " OUTPUTCURRENT:      C:" << avgCurrent << " V: " << avgVoltage << std::endl;
+	}
+
+	if(m_ReversePID)
+	{
+		m_PIDOutput = -m_PIDOutput;
+	}
+
 	m_PID_P_Previous = m_PID_P;
-	std::cout << "sp: " << m_SetPoint << " pv: " << m_Encoder->GetDistance() << std::endl;
+	//std::cout << "sp: " << m_SetPoint << " pv: " << m_Encoder->GetDistance() << std::endl;
 	if(m_PIDEnabled)
 	{
 		//Todo: Write PID shit
@@ -126,5 +155,5 @@ void Spool::DisablePID()
 
 float Spool::GetPosition()
 {
-	return 0;
+	return m_SetPoint;
 }
