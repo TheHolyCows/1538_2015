@@ -102,14 +102,10 @@ void CowRobot::handle()
 	SetRightMotors(tmpRightMotor);
 	if(m_DSUpdateCount % 10 == 0)
 	{
-		printf("Gyro: %f, VSP: %f\r\n",  m_Gyro->GetAngle(),
-				m_VerticalLift->GetPosition());
+		printf("Gyro: %f, VSP: %f, Pincher Watts: %f\r\n",  m_Gyro->GetAngle(),
+				m_VerticalLift->GetPosition(), m_Pincher->GetWattage());
 	}
 
-	if(m_DSUpdateCount % 100 == 0)
-	{
-		//m_SolenoidA->Set(!m_SolenoidA->Get());
-	}
 	m_DSUpdateCount++;
 
 }

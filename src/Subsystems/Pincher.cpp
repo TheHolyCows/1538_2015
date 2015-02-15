@@ -19,7 +19,8 @@ Pincher::Pincher(unsigned int leftIntake,
 		m_PIDOutput(0),
 		m_PID_P(0),
 		m_PID_D(0),
-		m_PID_P_Previous(0)
+		m_PID_P_Previous(0),
+		m_CurrentPIDEnabled(false)
 {
 
 }
@@ -35,17 +36,31 @@ Pincher::~Pincher()
 
 void Pincher::handle()
 {
-	m_PID_P = m_SetPoint - m_Encoder->Get();
-	m_PID_D = m_PID_P - m_PID_P_Previous;
-	m_PIDOutput = (m_PID_P * CONSTANT("PINCHER_POS_P") + (m_PID_D * CONSTANT("PINCHER_POS_D")));
-	m_PIDOutput = -m_PIDOutput;
-	m_PID_P_Previous = m_PID_P;
-	std::cout << "sp: " << m_SetPoint << " pv: " << m_Encoder->Get() << std::endl;
 	if(m_PIDEnabled)
 	{
-		//Todo: Write PID shit
-		m_PincherA->Set(m_PIDOutput);
-		m_PincherB->Set(m_PIDOutput);
+		if(!m_CurrentPIDEnabled)
+		{
+			m_PID_P = m_SetPoint - m_Encoder->Get();
+			m_PID_D = m_PID_P - m_PID_P_Previous;
+			m_PIDOutput = (m_PID_P * CONSTANT("PINCHER_POS_P") + (m_PID_D * CONSTANT("PINCHER_POS_D")));
+			m_PIDOutput = -m_PIDOutput;
+			m_PID_P_Previous = m_PID_P;
+
+			m_PincherA->Set(m_PIDOutput);
+			m_PincherB->Set(m_PIDOutput);
+		}
+		else
+		{
+			m_PID_P = m_SetPoint - GetWattage();
+			m_PID_D = m_PID_P - m_PID_P_Previous;
+			m_PIDOutput = (m_PID_P * CONSTANT("PINCHER_CUR_P") + (m_PID_D * CONSTANT("PINCHER_CUR_D")));
+			m_PIDOutput = -m_PIDOutput;
+			m_PID_P_Previous = m_PID_P;
+
+			m_PincherA->Set(m_PIDOutput);
+			m_PincherB->Set(m_PIDOutput);
+		}
+
 	}
 	else
 	{
@@ -71,6 +86,28 @@ void Pincher::UpdateSetPoint(float setpoint)
 float Pincher::GetPosition()
 {
 	return m_Encoder->Get();
+}
+
+float Pincher::GetWattage()
+{
+	float avgCurrent = m_PincherA->GetOutputCurrent() + m_PincherB->GetOutputCurrent();
+	avgCurrent /= 2.0;
+
+	float avgVolts = m_PincherA->GetOutputVoltage() + m_PincherB->GetOutputVoltage();
+	avgVolts /= 2.0;
+
+	float avgPower = avgCurrent * avgVolts;
+	return avgPower;
+}
+
+void Pincher::GrabMode()
+{
+	m_CurrentPIDEnabled = true;
+}
+
+void Pincher::PositionMode()
+{
+	m_CurrentPIDEnabled = false;
 }
 
 void Pincher::EnablePID()

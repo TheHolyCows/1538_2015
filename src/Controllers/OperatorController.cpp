@@ -19,7 +19,21 @@ void OperatorController::handle(CowRobot *bot)
 				 		m_CB->GetSteeringButton(FAST_TURN));
 
 
-	bot->GetPincher()->ManualControl(m_CB->GetOperatorGamepadAxis(1), m_CB->GetOperatorGamepadAxis(0));
+	//bot->GetPincher()->ManualControl(m_CB->GetOperatorGamepadAxis(1), m_CB->GetOperatorGamepadAxis(0));
+
+	if(m_CB->GetSteeringButton(1))
+	{
+		bot->GetPincher()->ManualControl(1, 0);
+	}
+	else if(m_CB->GetSteeringButton(3))
+	{
+		bot->GetPincher()->ManualControl(-1, 0);
+	}
+
+	if(!m_CB->GetSteeringButton(1) && !m_CB->GetSteeringButton(3))
+	{
+		bot->GetPincher()->ManualControl(0, 0);
+	}
 
 	if(m_CB->GetOperatorButton(2))
 	{
@@ -38,7 +52,7 @@ void OperatorController::handle(CowRobot *bot)
 		bot->GetVerticalLift()->UpdateSetPoint(CONSTANT("VERTICAL_BASE_TOTE"));
 	}
 
-	bot->GetVerticalLift()->UpdateSetPoint(bot->GetVerticalLift()->GetPosition() + m_CB->GetOperatorGamepadAxis(3)*1.5);
+	bot->GetVerticalLift()->UpdateSetPoint(bot->GetVerticalLift()->GetPosition() + m_CB->GetOperatorGamepadAxis(1)*1.5);
 	//bot->GetHorizontalLift()->UpdateSetPoint(bot->GetVerticalLift()->GetPosition() + m_CB->GetOperatorGamepadAxis(2)*5.0);
 	//bot->GetHorizontalLift()->
 
@@ -49,21 +63,21 @@ void OperatorController::handle(CowRobot *bot)
 	}
 	else if(m_CB->GetOperatorButton(1))
 	{
+		bot->GetVerticalLift()->UpdateSetPoint(0);
 		bot->GetPincher()->UpdateSetPoint(CONSTANT("PINCHER_CAN"));
 	}
 	else if(m_CB->GetOperatorButton(6))
 	{
 		bot->GetPincher()->UpdateSetPoint(CONSTANT("PINCHER_TOTE"));
 	}
-	else if(m_CB->GetOperatorButton(7) && !setPinchOnce)
+	else if(m_CB->GetOperatorButton(7))
 	{
-		bot->GetPincher()->UpdateSetPoint(bot->GetPincher()->GetPosition() + 150);
-		setPinchOnce = true;
+		bot->GetPincher()->GrabMode();
 	}
 
 	if(!m_CB->GetOperatorButton(7))
 	{
-		setPinchOnce = false;
+		bot->GetPincher()->PositionMode();
 	}
 
 }

@@ -22,6 +22,11 @@ public:
 	void ManualControl(float intake, float pincher);
 	float GetPosition();
 
+	void GrabMode();
+	void PositionMode();
+
+	float GetWattage();
+
 	void EnablePID();
 	void DisablePID();
 
@@ -36,6 +41,8 @@ private:
 	Encoder *m_Encoder;
 
 	bool m_PIDEnabled;
+
+	bool m_CurrentPIDEnabled;
 
 	float m_SetPoint;
 	float m_PIDOutput;
