@@ -42,6 +42,10 @@ void OperatorController::handle(CowRobot *bot)
 	}
 	else if(m_CB->GetOperatorButton(4))
 	{
+		bot->GetVerticalLift()->UpdateSetPoint(CONSTANT("VERTICAL_THREE_CAN"));
+	}
+	if(m_CB->GetSteeringButton(2))
+	{
 		bot->GetVerticalLift()->UpdateSetPoint(CONSTANT("VERTICAL_BASE_TOTE"));
 	}
 
@@ -67,6 +71,7 @@ void OperatorController::handle(CowRobot *bot)
 	}
 	else if(m_CB->GetOperatorButton(7))
 	{
+		bot->GetPincher()->UpdateSetPoint(CONSTANT("PINCHER_CAN"));
 		bot->GetPincher()->GrabMode();
 	}
 
