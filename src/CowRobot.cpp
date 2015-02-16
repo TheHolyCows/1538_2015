@@ -28,6 +28,8 @@ CowRobot::CowRobot()
 	m_DriveEncoder = new Encoder(0, 1, true, Encoder::k1X);
 	m_DriveEncoder->SetDistancePerPulse(0.03490658503); // 4*pi/360
 
+	m_PowerDistributionPanel = new PowerDistributionPanel();
+
 	m_VerticalLift = new Spool("VSPOOL", VSPOOL_A, VSPOOL_B, MXP_VSPOOL_A, MXP_VSPOOL_B, true);
 	m_HorizontalLift = new Spool("HSPOOL", HSPOOL_A, MXP_HSPOOL_A, MXP_HSPOOL_B, true);
 

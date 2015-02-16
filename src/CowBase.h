@@ -16,8 +16,9 @@
 class CowBase : public IterativeRobot
 {
 private:
-	void DisplayDiag(bool, CowLib::CowAlphaNum *);
+	void DisplayState(bool, CowLib::CowAlphaNum *);
 	void DisplayNextState(CowLib::CowAlphaNum *);
+	void DisplayUpdateState(CowLib::CowAlphaNum *);
 
 	CowRobot *m_Bot;
 	CowControlBoard *m_ControlBoard;
@@ -25,7 +26,9 @@ private:
 	AutoModeController *m_AutoController;
 	CowConstants *m_Constants;
 	uint8_t m_UserState;
+	uint8_t m_PrevUserState;
 	uint32_t m_UserPeriodicCount;
+	uint32_t m_UserStatePeriodicCount;
 	uint8_t m_UserScrollCount;
 	bool m_ButtonPressedOnce;
 

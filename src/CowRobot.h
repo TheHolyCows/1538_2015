@@ -40,6 +40,8 @@ private:
 	Spool *m_VerticalLift;
 	Spool *m_HorizontalLift;
 
+	PowerDistributionPanel *m_PowerDistributionPanel;
+
 	CowLib::CowAlphaNum *m_LEDDisplay;
 
 	float m_LeftDriveValue;
@@ -68,6 +70,11 @@ public:
 	CowLib::CowAlphaNum *GetDisplay()
 	{
 		return m_LEDDisplay;
+	}
+
+	PowerDistributionPanel *GetPowerDistributionPanel()
+	{
+		return m_PowerDistributionPanel;
 	}
 
 	Gyro *GetGyro()
