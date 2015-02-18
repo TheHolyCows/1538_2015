@@ -61,11 +61,22 @@ void Spool::handle()
 	std::string PID_D_CONSTANT = m_Name + "_PID_D";
 	std::string RESET_CURRENT_CONSTANT = m_Name + "_RESET_CURRENT";
 
+	//PID Calculations
+
 	m_PID_P = m_SetPoint - m_Encoder->GetDistance();
 	m_PID_D = m_PID_P - m_PID_P_Previous;
+	m_PID_P_Previous = m_PID_P;
+
+	//Let gravity take the wheel
+	if(m_SetPoint > m_Encoder->GetDistance())
+	{
+		m_PID_P *= 0.38;
+	}
+
 	m_PIDOutput = (m_PID_P * CONSTANT(PID_P_CONSTANT.c_str()) + (m_PID_D * CONSTANT(PID_D_CONSTANT.c_str())));
 
-	if(m_Encoder->GetDistance() > -0.4)
+
+	if(m_Encoder->GetDistance() > -3)
 	{
 		float avgCurrent = m_MotorA->GetOutputCurrent();
 		float avgVoltage = m_MotorA->GetOutputVoltage();
@@ -77,10 +88,11 @@ void Spool::handle()
 			avgVoltage /= 2.0;
 		}
 
-		if(avgCurrent < CONSTANT(RESET_CURRENT_CONSTANT.c_str()) &&
+		if(avgCurrent > CONSTANT(RESET_CURRENT_CONSTANT.c_str()) &&
 		   avgVoltage < 0.0)
 		{
-		//	m_Encoder->Reset();
+			//m_Encoder->Reset();
+			//m_SetPoint = 0;
 			std::cout << "RESET ENCODER FOR " << m_Name << std::endl;
 		}
 
@@ -92,7 +104,6 @@ void Spool::handle()
 		m_PIDOutput = -m_PIDOutput;
 	}
 
-	m_PID_P_Previous = m_PID_P;
 	if(m_PIDEnabled)
 	{
 		m_MotorA->Set(m_PIDOutput);
@@ -114,6 +125,15 @@ void Spool::handle()
 
 void Spool::UpdateSetPoint(float setpoint)
 {
+	if(setpoint <= CONSTANT("VERTICAL_MAX"))
+	{
+		setpoint = CONSTANT("VERTICAL_MAX");
+	}
+	else if(setpoint >= 0)
+	{
+		setpoint = 0;
+	}
+
 	m_SetPoint = setpoint;
 }
 

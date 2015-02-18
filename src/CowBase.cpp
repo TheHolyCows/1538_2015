@@ -63,9 +63,10 @@ void CowBase::TeleopContinuous()
 void CowBase::DisabledPeriodic()
 {
 	//m_Bot->GyroHandleCalibration();
-
-	m_Display->DisplayPeriodic();
-
+	if(m_Display)
+	{
+		m_Display->DisplayPeriodic();
+	}
 	if(m_ControlBoard->GetAutoSelectButton())
 	{
 		m_Constants->RestoreData();
