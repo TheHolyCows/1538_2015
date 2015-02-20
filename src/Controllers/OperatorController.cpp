@@ -17,10 +17,12 @@ void OperatorController::handle(CowRobot *bot)
 	if(m_CB->GetSteeringButton(1))
 	{
 		bot->GetPincher()->ManualControl(1, 0);
+		bot->GetPincher()->EnablePositionPID();
 	}
 	else if(m_CB->GetSteeringButton(3))
 	{
 		bot->GetPincher()->ManualControl(-1, 0);
+		bot->GetPincher()->EnablePositionPID();
 	}
 
 	if(!m_CB->GetSteeringButton(1) && !m_CB->GetSteeringButton(3))
@@ -59,25 +61,40 @@ void OperatorController::handle(CowRobot *bot)
 	if(m_CB->GetOperatorButton(3))
 	{
 		bot->GetPincher()->UpdateSetPoint(CONSTANT("PINCHER_OPEN"));
+		bot->GetPincher()->EnablePositionPID();
 	}
 	else if(m_CB->GetOperatorButton(1))
 	{
 		bot->GetVerticalLift()->UpdateSetPoint(0);
 		bot->GetPincher()->UpdateSetPoint(CONSTANT("PINCHER_CAN"));
+		bot->GetPincher()->EnablePositionPID();
+
 	}
 	else if(m_CB->GetOperatorButton(6))
 	{
 		bot->GetPincher()->UpdateSetPoint(CONSTANT("PINCHER_TOTE"));
+		bot->GetPincher()->EnablePositionPID();
 	}
 	else if(m_CB->GetOperatorButton(7))
 	{
 		bot->GetPincher()->UpdateSetPoint(CONSTANT("PINCHER_CAN"));
-		bot->GetPincher()->GrabMode();
+		bot->GetPincher()->EnablePositionPID();
 	}
 
 	if(!m_CB->GetOperatorButton(7))
 	{
+		if(!setPinchOnce)
+		{
+			bot->GetPincher()->UpdateSetPoint(CONSTANT("PINCHER_OPEN"));
+			bot->GetPincher()->EnablePositionPID();
+			setPinchOnce = true;
+		}
 		bot->GetPincher()->PositionMode();
+	}
+	else
+	{
+		bot->GetPincher()->GrabMode();
+		setPinchOnce = false;
 	}
 
 }

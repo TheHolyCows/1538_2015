@@ -29,6 +29,7 @@ public:
 
 	void EnablePID();
 	void DisablePID();
+	void EnablePositionPID();
 
 private:
 	float m_IntakeSpeed;
@@ -41,6 +42,7 @@ private:
 	Encoder *m_Encoder;
 
 	bool m_PIDEnabled;
+	bool m_AtPositionTarget;
 
 	bool m_CurrentPIDEnabled;
 

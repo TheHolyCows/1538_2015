@@ -20,7 +20,8 @@ Pincher::Pincher(unsigned int leftIntake,
 		m_PID_P(0),
 		m_PID_D(0),
 		m_PID_P_Previous(0),
-		m_CurrentPIDEnabled(false)
+		m_CurrentPIDEnabled(false),
+		m_AtPositionTarget(false)
 {
 
 }
@@ -46,8 +47,21 @@ void Pincher::handle()
 			m_PIDOutput = -m_PIDOutput;
 			m_PID_P_Previous = m_PID_P;
 
-			m_PincherA->Set(m_PIDOutput);
-			m_PincherB->Set(m_PIDOutput);
+			if(fabs(m_PID_P) < 10)
+			{
+				m_AtPositionTarget = true;
+			}
+
+			if(!m_AtPositionTarget)
+			{
+				m_PincherA->Set(m_PIDOutput);
+				m_PincherB->Set(m_PIDOutput);
+			}
+			else
+			{
+				m_PincherA->Set(0);
+				m_PincherB->Set(0);
+			}
 		}
 		else
 		{
@@ -60,7 +74,6 @@ void Pincher::handle()
 			m_PincherA->Set(m_PIDOutput);
 			m_PincherB->Set(m_PIDOutput);
 		}
-
 	}
 	else
 	{
@@ -80,6 +93,7 @@ void Pincher::ManualControl(float intake, float pincher)
 
 void Pincher::UpdateSetPoint(float setpoint)
 {
+	EnablePID();
 	m_SetPoint = setpoint;
 }
 
@@ -118,4 +132,9 @@ void Pincher::EnablePID()
 void Pincher::DisablePID()
 {
 	m_PIDEnabled = false;
+}
+
+void Pincher::EnablePositionPID()
+{
+	m_AtPositionTarget = false;
 }
