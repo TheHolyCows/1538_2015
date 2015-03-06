@@ -54,6 +54,10 @@ void Pincher::handle()
 
 			if(!m_AtPositionTarget)
 			{
+				if(m_IntakeSpeed != 0)
+				{
+					m_PIDOutput = CowLib::LimitMix(m_PIDOutput, CONSTANT("PINCHER_MAX_INTAKE_CURRENT"));
+				}
 				m_PincherA->Set(m_PIDOutput);
 				m_PincherB->Set(m_PIDOutput);
 			}

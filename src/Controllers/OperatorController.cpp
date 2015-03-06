@@ -72,7 +72,9 @@ void OperatorController::handle(CowRobot *bot)
 	}
 	else if(m_CB->GetOperatorButton(6))
 	{
-		bot->GetPincher()->UpdateSetPoint(CONSTANT("PINCHER_TOTE"));
+		bot->GetVerticalLift()->UpdateSetPoint(CONSTANT("VERTICAL_HUMAN_PLAYER"));
+		bot->GetPincher()->UpdateSetPoint(CONSTANT("PINCHER_CAN"));
+		bot->GetPincher()->ManualControl(-1, 0);
 		bot->GetPincher()->EnablePositionPID();
 	}
 	else if(m_CB->GetOperatorButton(7))

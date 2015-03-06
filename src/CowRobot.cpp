@@ -171,9 +171,21 @@ void CowRobot::DriveSpeedTurn(float speed, float turn, bool quickTurn)
 		turn = 0;
 
 	if(quickTurn)
-		sensitivity = 1;
+	{
+		if(speed == 0.0)
+		{
+			sensitivity = 1;
+		}
+		else
+		{
+			sensitivity = 0.75;
+		}
+
+	}
 	else
+	{
 		sensitivity = 0.22;
+	}
 
 	turn *= sensitivity;
 	turn = -turn;
