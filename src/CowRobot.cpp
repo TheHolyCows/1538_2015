@@ -22,10 +22,10 @@ CowRobot::CowRobot()
 	m_LEDDisplay = new CowLib::CowAlphaNum(0x70);
 
 	m_Gyro = new Gyro(0);
-	m_Gyro->SetSensitivity(0.007);
+	m_Gyro->SetSensitivity(0.0068);
 	m_Gyro->Reset();
 
-	m_DriveEncoder = new Encoder(0, 1, true, Encoder::k1X);
+	m_DriveEncoder = new Encoder(MXP_DRIVE_A, MXP_DRIVE_B, true, Encoder::k1X);
 	m_DriveEncoder->SetDistancePerPulse(0.03490658503); // 4*pi/360
 
 	m_PowerDistributionPanel = new PowerDistributionPanel();
@@ -49,6 +49,10 @@ CowRobot::CowRobot()
 void CowRobot::Reset()
 {
 	m_DriveEncoder->Reset();
+	m_Gyro->Reset();
+	m_Pincher->Reset();
+	m_VerticalLift->Reset();
+
 	m_PreviousGyroError = 0;
 	m_PreviousDriveError = 0;
 }
@@ -132,8 +136,7 @@ bool CowRobot::DriveWithHeading(double heading, double speed)
 	speed *= -1;
 	double PID_P = CONSTANT("TURN_P");
 	double PID_D = CONSTANT("TURN_D");
-	//double error = heading - m_Gyro->GetAngle();
-	double error = 0;
+	double error = heading - m_Gyro->GetAngle();
 	double dError = error - m_PreviousGyroError;
 	double output = PID_P*error + PID_D*dError;
 				
@@ -143,6 +146,24 @@ bool CowRobot::DriveWithHeading(double heading, double speed)
 	
 	return (fabs(error) < 1 && CowLib::UnitsPerSecond(fabs(dError)) < 0.5);
 }
+
+bool CowRobot::DriveWithHeading(double heading, double speed, double maxSpeed)
+{
+	speed *= -1;
+	double PID_P = CONSTANT("TURN_P");
+	double PID_D = CONSTANT("TURN_D");
+	double error = heading - m_Gyro->GetAngle();
+	double dError = error - m_PreviousGyroError;
+	double output = PID_P*error + PID_D*dError;
+	output = CowLib::LimitMix(output, maxSpeed);
+
+	DriveLeftRight(speed-output, speed+output);
+
+	m_PreviousGyroError = error;
+
+	return (fabs(error) < 1 && CowLib::UnitsPerSecond(fabs(dError)) < 0.5);
+}
+
 
 // Allows skid steer robot to be driven using tank drive style inputs
 // @param leftDriveValue

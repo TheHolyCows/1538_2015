@@ -156,3 +156,8 @@ float Spool::GetPosition()
 {
 	return m_SetPoint;
 }
+
+void Spool::Reset()
+{
+	m_Encoder->Reset();
+}

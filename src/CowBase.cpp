@@ -20,6 +20,7 @@ CowBase::CowBase()
 
 void CowBase::RobotInit()
 {
+	m_Bot->Reset();
 }
 
 void CowBase::DisabledInit()
@@ -29,20 +30,13 @@ void CowBase::DisabledInit()
 
 void CowBase::AutonomousInit()
 {
-	//m_Bot->GyroFinalizeCalibration();
-	
 	m_AutoController->SetCommandList(AutoModes::GetInstance()->GetCommandList());
 	m_Bot->SetController(m_AutoController);
 	m_Bot->Reset();
 }
 void CowBase::TeleopInit()
 {
-	//m_Bot->GyroFinalizeCalibration();
-
 	m_Bot->SetController(m_OpController);
-	m_Bot->Reset();
-	//m_Bot->SetWinchState(m_WinchState);
-	//m_WinchState = Winch::READY_TO_FIRE;
 }
 
 void CowBase::DisabledContinuous()

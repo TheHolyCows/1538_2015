@@ -23,6 +23,8 @@ public:
 	void EnablePID();
 	void DisablePID();
 
+	void Reset();
+
 private:
 	bool m_ReversePID;
 	CANTalon *m_MotorA;

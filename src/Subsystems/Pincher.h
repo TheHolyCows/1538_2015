@@ -31,6 +31,8 @@ public:
 	void DisablePID();
 	void EnablePositionPID();
 
+	void Reset();
+
 private:
 	float m_IntakeSpeed;
 	float m_PincherSpeed;

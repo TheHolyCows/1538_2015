@@ -35,6 +35,11 @@ Pincher::~Pincher()
 	delete m_Encoder;
 }
 
+void Pincher::Reset()
+{
+	m_Encoder->Reset();
+}
+
 void Pincher::handle()
 {
 	if(m_PIDEnabled)
@@ -47,25 +52,25 @@ void Pincher::handle()
 			m_PIDOutput = -m_PIDOutput;
 			m_PID_P_Previous = m_PID_P;
 
-			if(fabs(m_PID_P) < 10)
-			{
-				m_AtPositionTarget = true;
-			}
-
-			if(!m_AtPositionTarget)
-			{
-				if(m_IntakeSpeed != 0)
+//			if(fabs(m_PID_P) < 10)
+//			{
+//				m_AtPositionTarget = true;
+//			}
+//
+//			if(!m_AtPositionTarget)
+//			{
+				if(m_IntakeSpeed != 0 && fabs(m_PID_P < 30))
 				{
 					m_PIDOutput = CowLib::LimitMix(m_PIDOutput, CONSTANT("PINCHER_MAX_INTAKE_CURRENT"));
 				}
 				m_PincherA->Set(m_PIDOutput);
 				m_PincherB->Set(m_PIDOutput);
-			}
-			else
-			{
-				m_PincherA->Set(0);
-				m_PincherB->Set(0);
-			}
+//			}
+//			else
+//			{
+//				m_PincherA->Set(0);
+//				m_PincherB->Set(0);
+//			}
 		}
 		else
 		{
