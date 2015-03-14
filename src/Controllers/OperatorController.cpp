@@ -37,19 +37,23 @@ void OperatorController::handle(CowRobot *bot)
 		bot->GetPincher()->ManualControl(0, 0);
 	}
 
-	if(m_CB->GetOperatorButton(2))
+	if(m_CB->GetOperatorButton(8))
 	{
 		bot->GetVerticalLift()->UpdateSetPoint(CONSTANT("VERTICAL_ONE_TOTE"));
 	}
-	else if(m_CB->GetOperatorButton(5))
+	else if(m_CB->GetOperatorButton(6))
 	{
 		bot->GetVerticalLift()->UpdateSetPoint(CONSTANT("VERTICAL_TWO_TOTE"));
 	}
-	else if(m_CB->GetOperatorButton(8))
+	else if(m_CB->GetOperatorButton(7))
 	{
 		bot->GetVerticalLift()->UpdateSetPoint(CONSTANT("VERTICAL_THREE_TOTE"));
 	}
-	else if(m_CB->GetOperatorButton(4))
+	else if(m_CB->GetOperatorButton(2))
+	{
+		bot->GetVerticalLift()->UpdateSetPoint(CONSTANT("VERTICAL_FOUR_TOTE"));
+	}
+	else if(m_CB->GetOperatorButton(5))
 	{
 		bot->GetVerticalLift()->UpdateSetPoint(CONSTANT("VERTICAL_THREE_CAN"));
 	}
@@ -70,27 +74,27 @@ void OperatorController::handle(CowRobot *bot)
 		bot->GetPincher()->UpdateSetPoint(CONSTANT("PINCHER_OPEN"));
 		bot->GetPincher()->EnablePositionPID();
 	}
-	else if(m_CB->GetOperatorButton(1))
+	else if(m_CB->GetOperatorButton(4))
 	{
 		bot->GetVerticalLift()->UpdateSetPoint(0);
 		bot->GetPincher()->UpdateSetPoint(CONSTANT("PINCHER_CAN"));
 		bot->GetPincher()->EnablePositionPID();
 
 	}
-	else if(m_CB->GetOperatorButton(6))
+	else if(m_CB->GetOperatorButton(9))
 	{
 		bot->GetVerticalLift()->UpdateSetPoint(CONSTANT("VERTICAL_HUMAN_PLAYER"));
 		bot->GetPincher()->UpdateSetPoint(CONSTANT("PINCHER_CAN"));
 		bot->GetPincher()->ManualControl(-1, 0);
 		bot->GetPincher()->EnablePositionPID();
 	}
-	else if(m_CB->GetOperatorButton(7))
+	else if(m_CB->GetOperatorButton(10))
 	{
 		bot->GetPincher()->UpdateSetPoint(CONSTANT("PINCHER_CAN"));
 		bot->GetPincher()->EnablePositionPID();
 	}
 
-	if(!m_CB->GetOperatorButton(7))
+	if(!m_CB->GetOperatorButton(10))
 	{
 		if(!setPinchOnce)
 		{

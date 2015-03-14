@@ -16,6 +16,7 @@ typedef enum
 	CMD_TURN,
 	CMD_TURN_WITH_TOTE,
 	CMD_DRIVE_DISTANCE,
+	CMD_HOLD_DISTANCE,
 	CMD_WAIT
 } e_RobotCommand;
 
