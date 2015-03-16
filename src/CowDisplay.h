@@ -25,7 +25,6 @@ private:
 
 public:
 	CowDisplay(CowRobot *);
-	~CowDisplay();
 	void DisplayPeriodic();
 
 };

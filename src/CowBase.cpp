@@ -18,6 +18,14 @@ CowBase::CowBase()
 	printf("Done constructing CowBase!\n");
 }
 
+CowBase::~CowBase()
+{
+	delete m_ControlBoard;
+	delete m_OpController;
+	delete m_AutoController;
+	delete m_Display;
+}
+
 void CowBase::RobotInit()
 {
 	m_Bot->Reset();

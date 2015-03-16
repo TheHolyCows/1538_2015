@@ -32,15 +32,13 @@ namespace CowLib
 
 	bool CowCircularBuffer::IsEmpty()
 	{
-		bool result = false;
-		result = m_StartIndex == m_EndIndex;
+		bool result = (m_StartIndex == m_EndIndex);
 		return result;
 	}
 
 	bool CowCircularBuffer::IsFull()
 	{
-		bool result = false;
-		result = ((m_EndIndex + 1) % m_Size) == m_StartIndex;
+		bool result = (((m_EndIndex + 1) % m_Size) == m_StartIndex);
 		return result;
 	}
 

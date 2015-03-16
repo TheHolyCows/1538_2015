@@ -26,6 +26,7 @@ private:
 
 public:
 	CowBase();
+	~CowBase();
 	void RobotInit();
 	void DisabledInit();
 	void AutonomousInit();

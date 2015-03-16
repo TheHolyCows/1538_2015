@@ -75,7 +75,7 @@ const char *AutoModes::GetName()
 
 void AutoModes::NextMode()
 {
-	m_Iterator++;
+	++m_Iterator;
 	if(m_Iterator == m_Modes.end())
 	{
 		m_Iterator = m_Modes.begin();
