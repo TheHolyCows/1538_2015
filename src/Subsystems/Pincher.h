@@ -24,6 +24,7 @@ public:
 
 	void GrabMode();
 	void PositionMode();
+	void Spin(bool mode);
 
 	float GetWattage();
 
@@ -47,6 +48,7 @@ private:
 	bool m_AtPositionTarget;
 
 	bool m_CurrentPIDEnabled;
+	bool m_SpinMode;
 
 	float m_SetPoint;
 	float m_PIDOutput;

@@ -8,20 +8,24 @@ Pincher::Pincher(unsigned int leftIntake,
 		unsigned int encoderA,
 		unsigned int encoderB)
 :
+		m_IntakeSpeed(0),
+		m_PincherSpeed(0),
 		m_LeftIntake(new CANTalon(leftIntake)),
 		m_RightIntake(new CANTalon(rightIntake)),
 		m_PincherA(new CANTalon(pincherMotorA)),
 		m_PincherB(new CANTalon(pincherMotorB)),
 		m_Encoder(new Encoder(encoderA, encoderB, true, Encoder::k1X)),
-		m_PincherSpeed(0),
-		m_IntakeSpeed(0),
+
 		m_PIDEnabled(true),
+		m_AtPositionTarget(false),
+		m_CurrentPIDEnabled(false),
+		m_SpinMode(false),
+
+		m_SetPoint(0),
 		m_PIDOutput(0),
 		m_PID_P(0),
 		m_PID_D(0),
-		m_PID_P_Previous(0),
-		m_CurrentPIDEnabled(false),
-		m_AtPositionTarget(false)
+		m_PID_P_Previous(0)
 {
 
 }
@@ -89,8 +93,16 @@ void Pincher::handle()
 		m_PincherA->Set(0);
 		m_PincherB->Set(0);
 	}
-	m_LeftIntake->Set(m_IntakeSpeed);
-	m_RightIntake->Set(-m_IntakeSpeed);
+	if(m_SpinMode)
+	{
+		m_LeftIntake->Set(m_IntakeSpeed);
+		m_RightIntake->Set(m_IntakeSpeed);
+	}
+	else
+	{
+		m_LeftIntake->Set(m_IntakeSpeed);
+		m_RightIntake->Set(-m_IntakeSpeed);
+	}
 
 }
 
@@ -121,6 +133,11 @@ float Pincher::GetWattage()
 
 	float avgPower = avgCurrent * avgVolts;
 	return avgPower;
+}
+
+void Pincher::Spin(bool mode)
+{
+	m_SpinMode = mode;
 }
 
 void Pincher::GrabMode()

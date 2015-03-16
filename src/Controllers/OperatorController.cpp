@@ -68,7 +68,6 @@ void OperatorController::handle(CowRobot *bot)
 	bot->GetVerticalLift()->UpdateSetPoint(bot->GetVerticalLift()->GetPosition() + vLiftJoystick);
 	bot->GetHorizontalLift()->UpdateSetPoint(bot->GetHorizontalLift()->GetPosition() + hLiftJoystick);
 
-	float pincher_position = 0;
 	if(m_CB->GetOperatorButton(3))
 	{
 		bot->GetPincher()->UpdateSetPoint(CONSTANT("PINCHER_OPEN"));
@@ -92,6 +91,16 @@ void OperatorController::handle(CowRobot *bot)
 	{
 		bot->GetPincher()->UpdateSetPoint(CONSTANT("PINCHER_CAN"));
 		bot->GetPincher()->EnablePositionPID();
+	}
+
+	if(m_CB->GetOperatorButton(1))
+	{
+		bot->GetPincher()->Spin(true);
+		bot->GetPincher()->ManualControl(-1, 0);
+	}
+	else
+	{
+		bot->GetPincher()->Spin(false);
 	}
 
 	if(!m_CB->GetOperatorButton(10))

@@ -26,7 +26,8 @@ public:
 	void Reset();
 
 private:
-	bool m_ReversePID;
+	std::string m_Name;
+
 	CANTalon *m_MotorA;
 	CANTalon *m_MotorB;
 	Encoder *m_Encoder;
@@ -40,8 +41,8 @@ private:
 	float m_PID_P_Previous;
 
 	float m_ManualSpeed;
+	bool m_ReversePID;
 
-	std::string m_Name;
 };
 
 #endif /* __SPOOL_H__ */
