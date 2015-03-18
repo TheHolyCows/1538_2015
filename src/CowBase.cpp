@@ -73,15 +73,11 @@ void CowBase::DisabledPeriodic()
 	{
 		m_Constants->RestoreData();
 
-//		if(m_ControlBoard->GetDriveButton(0))
-//		{
-//			//m_Bot->Reset();
-//			//AutoModes::GetInstance()->NextMode();
-//		}
-//		else
-//		{
-//			m_Bot->GyroFinalizeCalibration();
-//		}
+		if(m_ControlBoard->GetDriveButton(1))
+		{
+			//m_Bot->Reset();
+			AutoModes::GetInstance()->NextMode();
+		}
 	}
 	
 //	m_Bot->PrintToDS();
