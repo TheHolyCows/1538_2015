@@ -53,6 +53,7 @@ void AutoModeController::handle(CowRobot *bot)
 			bot->GetPincher()->UpdateSetPoint(m_CurrentCommand.m_PincherPosition);
 			bot->GetPincher()->ManualControl(m_CurrentCommand.m_IntakeSpeed, 0);
 			bot->DriveWithHeading(m_CurrentCommand.m_Heading, 0);
+			bot->SetCanBurglar(m_CurrentCommand.m_CanBurglar);
 			doNothing(bot);
 			break;
 		}
@@ -71,6 +72,7 @@ void AutoModeController::handle(CowRobot *bot)
 			bot->GetVerticalLift()->UpdateSetPoint(m_CurrentCommand.m_VerticalPosition);
 			bot->GetPincher()->UpdateSetPoint(m_CurrentCommand.m_PincherPosition);
 			bot->GetPincher()->ManualControl(m_CurrentCommand.m_IntakeSpeed, 0);
+			bot->SetCanBurglar(m_CurrentCommand.m_CanBurglar);
 			result = bot->DriveWithHeading(m_CurrentCommand.m_Heading, 0);
 			break;
 		}
@@ -89,6 +91,7 @@ void AutoModeController::handle(CowRobot *bot)
 			bot->GetVerticalLift()->UpdateSetPoint(m_CurrentCommand.m_VerticalPosition);
 			bot->GetPincher()->UpdateSetPoint(m_CurrentCommand.m_PincherPosition);
 			bot->GetPincher()->ManualControl(m_CurrentCommand.m_IntakeSpeed, 0);
+			bot->SetCanBurglar(m_CurrentCommand.m_CanBurglar);
 			result = bot->DriveWithHeading(m_CurrentCommand.m_Heading, 0, 0.35);
 			break;
 		}
@@ -108,6 +111,7 @@ void AutoModeController::handle(CowRobot *bot)
 			bot->GetPincher()->UpdateSetPoint(m_CurrentCommand.m_PincherPosition);
 			bot->GetPincher()->ManualControl(m_CurrentCommand.m_IntakeSpeed, 0);
 			bot->DriveDistanceWithHeading(m_CurrentCommand.m_Heading, m_CurrentCommand.m_EncoderCount);
+			bot->SetCanBurglar(m_CurrentCommand.m_CanBurglar);
 			result = false;
 			break;
 		}
@@ -126,6 +130,7 @@ void AutoModeController::handle(CowRobot *bot)
 			bot->GetVerticalLift()->UpdateSetPoint(m_CurrentCommand.m_VerticalPosition);
 			bot->GetPincher()->UpdateSetPoint(m_CurrentCommand.m_PincherPosition);
 			bot->GetPincher()->ManualControl(m_CurrentCommand.m_IntakeSpeed, 0);
+			bot->SetCanBurglar(m_CurrentCommand.m_CanBurglar);
 			result = bot->DriveDistanceWithHeading(m_CurrentCommand.m_Heading, m_CurrentCommand.m_EncoderCount);
 			break;
 		}

@@ -40,6 +40,8 @@ private:
 	Spool *m_VerticalLift;
 	Spool *m_HorizontalLift;
 
+	Solenoid *m_CanBurglar;
+
 	PowerDistributionPanel *m_PowerDistributionPanel;
 
 	CowLib::CowAlphaNum *m_LEDDisplay;
@@ -49,6 +51,8 @@ private:
 
 	double m_PreviousGyroError;
 	double m_PreviousDriveError;
+
+	bool m_CanBurglarValue;
 		
 	void SetLeftMotors(float val);
 	void SetRightMotors(float val);
@@ -68,6 +72,8 @@ public:
 	void DriveLeftRight(float leftDriveValue, float rightDriveValue);
 	void QuickTurn(float turn);
 	
+	void SetCanBurglar(bool val);
+
 	CowLib::CowAlphaNum *GetDisplay()
 	{
 		return m_LEDDisplay;

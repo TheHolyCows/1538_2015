@@ -95,13 +95,16 @@ void OperatorController::handle(CowRobot *bot)
 
 	if(m_CB->GetOperatorButton(1))
 	{
-		bot->GetPincher()->Spin(true);
-		bot->GetPincher()->ManualControl(-1, 0);
+		bot->GetPincher()->UpdateSetPoint(CONSTANT("PINCHER_RIGHTING"));
+		bot->GetPincher()->EnablePositionPID();
+
+//		bot->GetPincher()->Spin(true);
+//		bot->GetPincher()->ManualControl(-1, 0);
 	}
-	else
-	{
+//	else
+//	{
 		bot->GetPincher()->Spin(false);
-	}
+	//}
 
 	if(!m_CB->GetOperatorButton(10))
 	{

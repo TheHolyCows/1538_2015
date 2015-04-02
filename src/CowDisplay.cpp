@@ -44,19 +44,11 @@ void CowDisplay::DisplayUpdateState()
 		{
 			if (m_UserStatePeriodicCount == 50)
 			{
-				PowerDistributionPanel *pdp = m_Bot->GetPowerDistributionPanel();
-				if (pdp)
-				{
-					char volt[64];
-					sprintf(volt, "%.2f ", pdp->GetVoltage());
-					std::string msg(volt);
-					msg = msg + " ";
-					alphaNumLED->SetBanner(msg);
-				}
-				else
-				{
-					alphaNumLED->SetBanner("?");
-				}
+				char volt[64];
+				sprintf(volt, "%.2f ", DriverStation::GetInstance()->GetBatteryVoltage());
+				std::string msg(volt);
+				msg = msg + " ";
+				alphaNumLED->SetBanner(msg);
 			}
 		}
 		alphaNumLED->SetBannerPosition(m_UserScrollCount);
@@ -67,7 +59,7 @@ void CowDisplay::DisplayUpdateState()
 		if (m_PrevUserState != m_UserState)
 		{
 			m_PrevUserState = m_UserState;
-			alphaNumLED->SetBanner("Mode");
+			alphaNumLED->SetBanner("Gyro");
 		}
 		else
 		{

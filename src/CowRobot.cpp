@@ -33,6 +33,8 @@ CowRobot::CowRobot()
 	m_VerticalLift = new Spool("VSPOOL", VSPOOL_A, VSPOOL_B, MXP_VSPOOL_A, MXP_VSPOOL_B, true);
 	m_HorizontalLift = new Spool("HSPOOL", HSPOOL_A, MXP_HSPOOL_A, MXP_HSPOOL_B, true);
 
+	m_CanBurglar = new Solenoid(CANBURGLAR);
+
 	//Todo: Get PID auto enabling to work
 	//m_VerticalLift->DisablePID();
 	//m_HorizontalLift->DisablePID();
@@ -44,6 +46,8 @@ CowRobot::CowRobot()
 	
 	m_PreviousGyroError = 0;
 	m_PreviousDriveError = 0;
+
+	m_CanBurglarValue = false;
 }
 
 void CowRobot::Reset()
@@ -93,6 +97,7 @@ void CowRobot::handle()
 	m_VerticalLift->handle();
 	m_HorizontalLift->handle();
 	m_Pincher->handle();
+	m_CanBurglar->Set(m_CanBurglarValue);
 	
 	// Default drive
 	float tmpLeftMotor = m_LeftDriveValue;
@@ -216,6 +221,11 @@ void CowRobot::DriveSpeedTurn(float speed, float turn, bool quickTurn)
 	float right_power = CowLib::LimitMix(speed - turn);
 
 	DriveLeftRight(left_power, right_power);
+}
+
+void CowRobot::SetCanBurglar(bool val)
+{
+	m_CanBurglarValue = val;
 }
 
 // Allows robot to spin in place

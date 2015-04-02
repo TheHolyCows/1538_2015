@@ -45,6 +45,7 @@ void CowBase::AutonomousInit()
 void CowBase::TeleopInit()
 {
 	m_Bot->SetController(m_OpController);
+	m_Bot->SetCanBurglar(false);
 }
 
 void CowBase::DisabledContinuous()

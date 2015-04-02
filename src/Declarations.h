@@ -31,6 +31,7 @@
 #define HSPOOL_A						12
 #define VSPOOL_A						13
 #define VSPOOL_B						14
+#define CANBURGLAR						7
 
 #define MXP_DRIVE_A						12
 #define MXP_DRIVE_B						13
