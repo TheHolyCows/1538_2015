@@ -63,10 +63,10 @@ void OperatorController::handle(CowRobot *bot)
 	}
 
 	float vLiftJoystick = CowLib::Deadband(m_CB->GetOperatorGamepadAxis(1), 0.2) * 1.5;
-	float hLiftJoystick = CowLib::Deadband(m_CB->GetOperatorGamepadAxis(0), 0.4) * 1.5;
+//	float hLiftJoystick = CowLib::Deadband(m_CB->GetOperatorGamepadAxis(0), 0.4) * 1.5;
 
 	bot->GetVerticalLift()->UpdateSetPoint(bot->GetVerticalLift()->GetPosition() + vLiftJoystick);
-	bot->GetHorizontalLift()->UpdateSetPoint(bot->GetHorizontalLift()->GetPosition() + hLiftJoystick);
+	//bot->GetHorizontalLift()->UpdateSetPoint(bot->GetHorizontalLift()->GetPosition() + hLiftJoystick);
 
 	if(m_CB->GetOperatorButton(3))
 	{

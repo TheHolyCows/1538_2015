@@ -31,7 +31,7 @@ CowRobot::CowRobot()
 	m_PowerDistributionPanel = new PowerDistributionPanel();
 
 	m_VerticalLift = new Spool("VSPOOL", VSPOOL_A, VSPOOL_B, MXP_VSPOOL_A, MXP_VSPOOL_B, true);
-	m_HorizontalLift = new Spool("HSPOOL", HSPOOL_A, MXP_HSPOOL_A, MXP_HSPOOL_B, true);
+	//m_HorizontalLift = new Spool("HSPOOL", HSPOOL_A, MXP_HSPOOL_A, MXP_HSPOOL_B, true);
 
 	m_CanBurglar = new Solenoid(CANBURGLAR);
 
@@ -95,7 +95,7 @@ void CowRobot::handle()
 	//printf("Handling...\n");
 	m_Controller->handle(this);
 	m_VerticalLift->handle();
-	m_HorizontalLift->handle();
+	//m_HorizontalLift->handle();
 	m_Pincher->handle();
 	m_CanBurglar->Set(m_CanBurglarValue);
 	

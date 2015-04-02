@@ -38,7 +38,7 @@ private:
 	
 	Pincher *m_Pincher;
 	Spool *m_VerticalLift;
-	Spool *m_HorizontalLift;
+	//Spool *m_HorizontalLift;
 
 	Solenoid *m_CanBurglar;
 
@@ -99,10 +99,10 @@ public:
 		return m_VerticalLift;
 	}
 
-	Spool *GetHorizontalLift()
-	{
-		return m_HorizontalLift;
-	}
+//	Spool *GetHorizontalLift()
+//	{
+//		return m_HorizontalLift;
+//	}
 
 	Pincher *GetPincher()
 	{
