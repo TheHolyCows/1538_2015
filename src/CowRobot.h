@@ -38,13 +38,21 @@ private:
 	
 	Pincher *m_Pincher;
 	Spool *m_VerticalLift;
+
 	//Spool *m_HorizontalLift;
 
-	Solenoid *m_CanBurglar;
+	Solenoid *m_CanBurglarA;
+	Solenoid *m_CanBurglarB;
+
 
 	PowerDistributionPanel *m_PowerDistributionPanel;
 
 	CowLib::CowAlphaNum *m_LEDDisplay;
+
+	DigitalInput* m_GrabSwitch;
+	bool m_AutoGrabOnce;
+	float m_AutoGrabReleaseTime;
+	float m_PreviousPincherSP;
 
 	float m_LeftDriveValue;
 	float m_RightDriveValue;

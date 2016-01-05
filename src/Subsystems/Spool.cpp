@@ -93,7 +93,7 @@ void Spool::handle()
 		if(avgCurrent > CONSTANT(RESET_CURRENT_CONSTANT.c_str()) &&
 		   avgVoltage < 0.0)
 		{
-			//m_Encoder->Reset();
+			m_Encoder->Reset();
 			//m_SetPoint = 0;
 			std::cout << "RESET ENCODER FOR " << m_Name << std::endl;
 		}

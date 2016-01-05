@@ -21,6 +21,10 @@ CowRobot::CowRobot()
 
 	m_LEDDisplay = new CowLib::CowAlphaNum(0x70);
 
+	m_GrabSwitch = new DigitalInput(MXP_GRAB_SWITCH);
+	m_AutoGrabReleaseTime = Timer::GetFPGATimestamp();
+	m_AutoGrabOnce = false;
+
 	m_Gyro = new Gyro(0);
 	m_Gyro->SetSensitivity(0.0068);
 	m_Gyro->Reset();
@@ -33,7 +37,8 @@ CowRobot::CowRobot()
 	m_VerticalLift = new Spool("VSPOOL", VSPOOL_A, VSPOOL_B, MXP_VSPOOL_A, MXP_VSPOOL_B, true);
 	//m_HorizontalLift = new Spool("HSPOOL", HSPOOL_A, MXP_HSPOOL_A, MXP_HSPOOL_B, true);
 
-	m_CanBurglar = new Solenoid(CANBURGLAR);
+	m_CanBurglarA = new Solenoid(CANBURGLAR_A);
+	m_CanBurglarB = new Solenoid(CANBURGLAR_B);
 
 	//Todo: Get PID auto enabling to work
 	//m_VerticalLift->DisablePID();
@@ -97,8 +102,36 @@ void CowRobot::handle()
 	m_VerticalLift->handle();
 	//m_HorizontalLift->handle();
 	m_Pincher->handle();
-	m_CanBurglar->Set(m_CanBurglarValue);
+	m_CanBurglarA->Set(m_CanBurglarValue);
+	m_CanBurglarB->Set(m_CanBurglarValue);
 	
+	float currentPincherSP = m_Pincher->GetSetPoint();
+	if(currentPincherSP == 0 && currentPincherSP != m_PreviousPincherSP)
+	{
+		m_AutoGrabReleaseTime = Timer::GetFPGATimestamp() + 2;
+	}
+	m_PreviousPincherSP = currentPincherSP;
+
+	if(m_GrabSwitch->Get() == false && (m_AutoGrabReleaseTime < Timer::GetFPGATimestamp()))
+	{
+		if(!m_AutoGrabOnce)
+		{
+			if(m_VerticalLift->GetPosition() >= CONSTANT("VERTICAL_BASE_TOTE"))
+			{
+				m_VerticalLift->UpdateSetPoint(0);
+			}
+
+			m_Pincher->UpdateSetPoint(CONSTANT("PINCHER_CAN"));
+			m_Pincher->EnablePositionPID();
+
+			m_AutoGrabOnce = true;
+		}
+	}
+	else
+	{
+			m_AutoGrabOnce = false;
+	}
+
 	// Default drive
 	float tmpLeftMotor = m_LeftDriveValue;
 	float tmpRightMotor = m_RightDriveValue;

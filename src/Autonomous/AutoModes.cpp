@@ -15,15 +15,15 @@ AutoModes *AutoModes::GetInstance()
 AutoModes::AutoModes()
 {	
 	// Set up our selection order
-	m_Modes["Nothing"];
-	m_Modes["Nothing"].push_back(RobotCommand(CMD_WAIT, 0, 0, 0, PINCH, CONSTANT("PINCHER_CAN"), 0, false, 1));
 
 	m_Modes["Can Burglar!"];
-	m_Modes["Can Burglar!"].push_back(RobotCommand(CMD_WAIT, 0, 0, 0, PINCH, 0, 0, true, 1));
+	m_Modes["Can Burglar!"].push_back(RobotCommand(CMD_WAIT, 0, 0, 0, PINCH, 0, 0, true, 0.545));
 	m_Modes["Can Burglar!"].push_back(RobotCommand(CMD_HOLD_DISTANCE, 100, 0, 0, PINCH, 0, 0, true, 2));
 	m_Modes["Can Burglar!"].push_back(RobotCommand(CMD_WAIT, 0, 0, 0, PINCH, 0, 0, false, 1));
 	m_Modes["Can Burglar!"].push_back(RobotCommand(CMD_HOLD_DISTANCE, 24, 0, 0, PINCH, 0, 0, false, 2));
 
+	m_Modes["Nothing"];
+	m_Modes["Nothing"].push_back(RobotCommand(CMD_WAIT, 0, 0, 0, PINCH, CONSTANT("PINCHER_CAN"), 0, false, 1));
 
 
 	m_Modes["Two Can"];

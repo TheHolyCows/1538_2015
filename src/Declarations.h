@@ -31,7 +31,9 @@
 #define HSPOOL_A						12
 #define VSPOOL_A						13
 #define VSPOOL_B						14
-#define CANBURGLAR						7
+#define CANBURGLAR_A					7
+#define CANBURGLAR_B					4
+
 
 #define MXP_DRIVE_A						12
 #define MXP_DRIVE_B						13
@@ -41,6 +43,8 @@
 #define MXP_HSPOOL_B					17
 #define MXP_VSPOOL_A					18
 #define MXP_VSPOOL_B					19
+
+#define MXP_GRAB_SWITCH					16
 
 // Analog inputs
 #define ANALOG_GYRO						0

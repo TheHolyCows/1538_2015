@@ -20,6 +20,7 @@ public:
 	void handle();
 	void UpdateSetPoint(float setpoint);
 	void ManualControl(float intake, float pincher);
+	float GetSetPoint();
 	float GetPosition();
 
 	void GrabMode();
@@ -55,7 +56,6 @@ private:
 	float m_PID_P;
 	float m_PID_D;
 	float m_PID_P_Previous;
-
 };
 
 #endif /* __PINCHER_H__ */

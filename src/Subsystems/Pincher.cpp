@@ -15,7 +15,6 @@ Pincher::Pincher(unsigned int leftIntake,
 		m_PincherA(new CANTalon(pincherMotorA)),
 		m_PincherB(new CANTalon(pincherMotorB)),
 		m_Encoder(new Encoder(encoderA, encoderB, true, Encoder::k1X)),
-
 		m_PIDEnabled(true),
 		m_AtPositionTarget(false),
 		m_CurrentPIDEnabled(false),
@@ -116,6 +115,11 @@ void Pincher::UpdateSetPoint(float setpoint)
 {
 	EnablePID();
 	m_SetPoint = setpoint;
+}
+
+float Pincher::GetSetPoint()
+{
+	return m_SetPoint;
 }
 
 float Pincher::GetPosition()
