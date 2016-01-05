@@ -31,13 +31,18 @@ CowBase inherits from IterativeRobot.  Its duties are to handle auto mode select
 
 CowRobot represents the physical robot in software.  It receives input from a controller and coordinates the physical subsystems of the robot to execute the controller's commands.
 
-Example: Neither the Winch nor the Intake systems are aware of each other.  When the controller tells the robot to fire, CowRobot independently coordinates the Winch and Intakes to fire the catapult.
+Example: Neither the Pincher nor the Spool systems are aware of each other.  When the controller tells the robot to pinch and lift a tote, CowRobot independently coordinates the Spool and Pincher to manipulate the tote.
 
 ### Controllers
 
 Controllers generate data to pass to CowRobot.  OperatorController reads from the CowControlBoard (a representation of the physical driver station), performs some logic checks (detects rising edges on push switches, etc), and tells the robot how to behave.  AutonomousController works on the same principles, but reads from a list of autonomous commands instead of a control board.
 
 ### CowLib
+
+#### Utilities
+*LimitMix (Similar to the limit mix used in IFI controllers way back when...)
+*Deadband
+*AnalogInScale
 
 #### CowGyro
 

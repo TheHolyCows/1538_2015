@@ -48,16 +48,11 @@
 
 // Analog inputs
 #define ANALOG_GYRO						0
-#define ANALOG_WINCH_POT				2
-#define ANALOG_REAR_IR					3
-#define ANALOG_FRONT_IR					4
 
 // Digital outputs	
 #define RELAY_COMPRESSOR				1
 
 // Digital inputs
 #define DIGITAL_PRESSURE_SWITCH			1
-#define DIGITAL_ENCODER_A				2
-#define DIGITAL_ENCODER_B				3
 
 #endif
