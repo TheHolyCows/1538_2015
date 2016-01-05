@@ -40,9 +40,9 @@ Controllers generate data to pass to CowRobot.  OperatorController reads from th
 ### CowLib
 
 #### Utilities
-*LimitMix (Similar to the limit mix used in IFI controllers way back when...)
-*Deadband
-*AnalogInScale
+* LimitMix (Similar to the limit mix used in IFI controllers way back when...)
+* Deadband
+* AnalogInScale
 
 #### CowGyro
 
